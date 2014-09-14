@@ -35,6 +35,11 @@ class Path
      */
     private $active;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Property", inversedBy="paths")
+     * @ORM\JoinColumn(name="property_id", referencedColumnName="id")
+     */
+    private $property;
 
     /**
      * Get id
@@ -90,5 +95,28 @@ class Path
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set property
+     *
+     * @param \Heron\MonitorBundle\Entity\Property $property
+     * @return Path
+     */
+    public function setProperty(\Heron\MonitorBundle\Entity\Property $property = null)
+    {
+        $this->property = $property;
+
+        return $this;
+    }
+
+    /**
+     * Get property
+     *
+     * @return \Heron\MonitorBundle\Entity\Property 
+     */
+    public function getProperty()
+    {
+        return $this->property;
     }
 }

@@ -35,6 +35,11 @@ class Property
     private $customer;
 
     /**
+     * @ORM\OneToMany(targetEntity="Path", mappedBy="property")
+     */
+    private $paths;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -88,5 +93,45 @@ class Property
     public function getCustomer()
     {
         return $this->customer;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->paths = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add paths
+     *
+     * @param \Heron\MonitorBundle\Entity\Path $paths
+     * @return Property
+     */
+    public function addPath(\Heron\MonitorBundle\Entity\Path $paths)
+    {
+        $this->paths[] = $paths;
+
+        return $this;
+    }
+
+    /**
+     * Remove paths
+     *
+     * @param \Heron\MonitorBundle\Entity\Path $paths
+     */
+    public function removePath(\Heron\MonitorBundle\Entity\Path $paths)
+    {
+        $this->paths->removeElement($paths);
+    }
+
+    /**
+     * Get paths
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPaths()
+    {
+        return $this->paths;
     }
 }
