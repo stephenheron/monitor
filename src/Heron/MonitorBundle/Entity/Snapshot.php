@@ -35,6 +35,12 @@ class Snapshot
      */
     private $har;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Path", inversedBy="snapshots")
+     * @ORM\JoinColumn(name="path_id", referencedColumnName="id")
+     **/
+    private $path;
+
 
     /**
      * Get id
@@ -90,5 +96,28 @@ class Snapshot
     public function getHar()
     {
         return $this->har;
+    }
+
+    /**
+     * Set path
+     *
+     * @param \Heron\MonitorBundle\Entity\Path $path
+     * @return Snapshot
+     */
+    public function setPath(\Heron\MonitorBundle\Entity\Path $path = null)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return \Heron\MonitorBundle\Entity\Path 
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 }

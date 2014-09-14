@@ -42,6 +42,11 @@ class Path
     private $property;
 
     /**
+     * @ORM\OneToMany(targetEntity="Snapshot", mappedBy="path")
+     **/
+    private $snapshots;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -118,5 +123,45 @@ class Path
     public function getProperty()
     {
         return $this->property;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->snapshots = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add snapshots
+     *
+     * @param \Heron\MonitorBundle\Entity\Snapshot $snapshots
+     * @return Path
+     */
+    public function addSnapshot(\Heron\MonitorBundle\Entity\Snapshot $snapshots)
+    {
+        $this->snapshots[] = $snapshots;
+
+        return $this;
+    }
+
+    /**
+     * Remove snapshots
+     *
+     * @param \Heron\MonitorBundle\Entity\Snapshot $snapshots
+     */
+    public function removeSnapshot(\Heron\MonitorBundle\Entity\Snapshot $snapshots)
+    {
+        $this->snapshots->removeElement($snapshots);
+    }
+
+    /**
+     * Get snapshots
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSnapshots()
+    {
+        return $this->snapshots;
     }
 }
