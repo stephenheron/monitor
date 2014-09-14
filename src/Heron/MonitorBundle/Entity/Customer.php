@@ -22,6 +22,11 @@ class Customer
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="Property", mappedBy="customer")
+     **/
+    private $properties;
+
+    /**
      * @ORM\OneToOne(targetEntity="Address")
      * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      */
@@ -55,6 +60,10 @@ class Customer
      */
     private $active;
 
+    public function __construct() 
+    {
+        $this->properties = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -179,5 +188,38 @@ class Customer
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Add properties
+     *
+     * @param \Heron\MonitorBundle\Entity\Property $properties
+     * @return Customer
+     */
+    public function addProperty(\Heron\MonitorBundle\Entity\Property $properties)
+    {
+        $this->properties[] = $properties;
+
+        return $this;
+    }
+
+    /**
+     * Remove properties
+     *
+     * @param \Heron\MonitorBundle\Entity\Property $properties
+     */
+    public function removeProperty(\Heron\MonitorBundle\Entity\Property $properties)
+    {
+        $this->properties->removeElement($properties);
+    }
+
+    /**
+     * Get properties
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProperties()
+    {
+        return $this->properties;
     }
 }

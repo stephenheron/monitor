@@ -28,6 +28,11 @@ class Property
      */
     private $baseUrl;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Customer", inversedBy="properties")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     */
+    private $customer;
 
     /**
      * Get id
@@ -60,5 +65,28 @@ class Property
     public function getBaseUrl()
     {
         return $this->baseUrl;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \Heron\MonitorBundle\Entity\Customer $customer
+     * @return Property
+     */
+    public function setCustomer(\Heron\MonitorBundle\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \Heron\MonitorBundle\Entity\Customer 
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
     }
 }
