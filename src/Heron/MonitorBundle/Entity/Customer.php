@@ -22,6 +22,12 @@ class Customer
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="Address")
+     * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
+     */
+    private $address;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="firstName", type="string", length=255)
@@ -150,5 +156,28 @@ class Customer
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set address
+     *
+     * @param \Heron\MonitorBundle\Entity\Address $address
+     * @return Customer
+     */
+    public function setAddress(\Heron\MonitorBundle\Entity\Address $address = null)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return \Heron\MonitorBundle\Entity\Address 
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 }

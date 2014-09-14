@@ -22,6 +22,11 @@ class Address
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="Customer", mappedBy="address")
+     **/
+    private $customer;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="company", type="string", length=255)
@@ -210,5 +215,28 @@ class Address
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \Heron\MonitorBundle\Entity\Customer $customer
+     * @return Address
+     */
+    public function setCustomer(\Heron\MonitorBundle\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \Heron\MonitorBundle\Entity\Customer 
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
     }
 }
