@@ -42,6 +42,17 @@ class Difference
      */
     private $javascriptDiff;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Snapshot")
+     * @ORM\JoinColumn(name="snapshot_a_id", referencedColumnName="id")
+     */
+    private $snapshotA;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Snapshot")
+     * @ORM\JoinColumn(name="snapshot_b_id", referencedColumnName="id")
+     */
+    private $snapshotB;
 
     /**
      * Get id
@@ -120,5 +131,51 @@ class Difference
     public function getJavascriptDiff()
     {
         return $this->javascriptDiff;
+    }
+
+    /**
+     * Set snapshotA
+     *
+     * @param \Heron\MonitorBundle\Entity\Snapshot $snapshotA
+     * @return Difference
+     */
+    public function setSnapshotA(\Heron\MonitorBundle\Entity\Snapshot $snapshotA = null)
+    {
+        $this->snapshotA = $snapshotA;
+
+        return $this;
+    }
+
+    /**
+     * Get snapshotA
+     *
+     * @return \Heron\MonitorBundle\Entity\Snapshot 
+     */
+    public function getSnapshotA()
+    {
+        return $this->snapshotA;
+    }
+
+    /**
+     * Set snapshotB
+     *
+     * @param \Heron\MonitorBundle\Entity\Snapshot $snapshotB
+     * @return Difference
+     */
+    public function setSnapshotB(\Heron\MonitorBundle\Entity\Snapshot $snapshotB = null)
+    {
+        $this->snapshotB = $snapshotB;
+
+        return $this;
+    }
+
+    /**
+     * Get snapshotB
+     *
+     * @return \Heron\MonitorBundle\Entity\Snapshot 
+     */
+    public function getSnapshotB()
+    {
+        return $this->snapshotB;
     }
 }
