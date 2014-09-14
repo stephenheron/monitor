@@ -41,6 +41,16 @@ class Snapshot
      **/
     private $path;
 
+    /**
+     * @ORM\OneToMany(targetEntity="cssFile", mappedBy="snapshot")
+     **/
+    private $cssFiles;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="javascriptFile", mappedBy="snapshot")
+     **/
+    private $javascriptFiles;
+
 
     /**
      * Get id
@@ -119,5 +129,78 @@ class Snapshot
     public function getPath()
     {
         return $this->path;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->cssFiles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add cssFiles
+     *
+     * @param \Heron\MonitorBundle\Entity\cssFile $cssFiles
+     * @return Snapshot
+     */
+    public function addCssFile(\Heron\MonitorBundle\Entity\cssFile $cssFiles)
+    {
+        $this->cssFiles[] = $cssFiles;
+
+        return $this;
+    }
+
+    /**
+     * Remove cssFiles
+     *
+     * @param \Heron\MonitorBundle\Entity\cssFile $cssFiles
+     */
+    public function removeCssFile(\Heron\MonitorBundle\Entity\cssFile $cssFiles)
+    {
+        $this->cssFiles->removeElement($cssFiles);
+    }
+
+    /**
+     * Get cssFiles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCssFiles()
+    {
+        return $this->cssFiles;
+    }
+
+    /**
+     * Add javascriptFiles
+     *
+     * @param \Heron\MonitorBundle\Entity\javascriptFile $javascriptFiles
+     * @return Snapshot
+     */
+    public function addJavascriptFile(\Heron\MonitorBundle\Entity\javascriptFile $javascriptFiles)
+    {
+        $this->javascriptFiles[] = $javascriptFiles;
+
+        return $this;
+    }
+
+    /**
+     * Remove javascriptFiles
+     *
+     * @param \Heron\MonitorBundle\Entity\javascriptFile $javascriptFiles
+     */
+    public function removeJavascriptFile(\Heron\MonitorBundle\Entity\javascriptFile $javascriptFiles)
+    {
+        $this->javascriptFiles->removeElement($javascriptFiles);
+    }
+
+    /**
+     * Get javascriptFiles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getJavascriptFiles()
+    {
+        return $this->javascriptFiles;
     }
 }

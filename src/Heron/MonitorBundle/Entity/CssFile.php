@@ -42,6 +42,12 @@ class CssFile
      */
     private $size;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Snapshot", inversedBy="cssFiles")
+     * @ORM\JoinColumn(name="snapshot_id", referencedColumnName="id")
+     **/
+    private $snapshot;
+
 
     /**
      * Get id
@@ -120,5 +126,28 @@ class CssFile
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * Set snapshot
+     *
+     * @param \Heron\MonitorBundle\Entity\Snapshot $snapshot
+     * @return CssFile
+     */
+    public function setSnapshot(\Heron\MonitorBundle\Entity\Snapshot $snapshot = null)
+    {
+        $this->snapshot = $snapshot;
+
+        return $this;
+    }
+
+    /**
+     * Get snapshot
+     *
+     * @return \Heron\MonitorBundle\Entity\Snapshot 
+     */
+    public function getSnapshot()
+    {
+        return $this->snapshot;
     }
 }

@@ -42,6 +42,11 @@ class JavascriptFile
      */
     private $size;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Snapshot", inversedBy="javascriptFiles")
+     * @ORM\JoinColumn(name="snapshot_id", referencedColumnName="id")
+     **/
+    private $snapshot;
 
     /**
      * Get id
@@ -120,5 +125,28 @@ class JavascriptFile
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * Set snapshot
+     *
+     * @param \Heron\MonitorBundle\Entity\Snapshot $snapshot
+     * @return JavascriptFile
+     */
+    public function setSnapshot(\Heron\MonitorBundle\Entity\Snapshot $snapshot = null)
+    {
+        $this->snapshot = $snapshot;
+
+        return $this;
+    }
+
+    /**
+     * Get snapshot
+     *
+     * @return \Heron\MonitorBundle\Entity\Snapshot 
+     */
+    public function getSnapshot()
+    {
+        return $this->snapshot;
     }
 }
