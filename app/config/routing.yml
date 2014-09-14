@@ -1,0 +1,4 @@
+heron_monitor:
+    resource: "@HeronMonitorBundle/Resources/config/routing.yml"
+    prefix:   /
+
