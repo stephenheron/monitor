@@ -27,7 +27,7 @@ class Customer
     private $properties;
 
     /**
-     * @ORM\OneToOne(targetEntity="Address")
+     * @ORM\OneToOne(targetEntity="Address", inversedBy="customer")
      * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      */
     private $address;
