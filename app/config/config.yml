@@ -23,6 +23,7 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    translator: ~
 
 # Twig Configuration
 twig:
@@ -74,3 +75,9 @@ stof_doctrine_extensions:
     orm:
         default:
             timestampable: true
+
+# FOS User Bundle
+fos_user:
+    db_driver: orm 
+    firewall_name: main
+    user_class: Heron\MonitorBundle\Entity\User

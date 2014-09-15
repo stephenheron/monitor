@@ -1,3 +1,3 @@
 heron_monitor_homepage:
-    path:     /hello/{name}
+    path:     /
     defaults: { _controller: HeronMonitorBundle:Default:index }
