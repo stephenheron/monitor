@@ -85,6 +85,7 @@ class Customer
     public function __construct() 
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
