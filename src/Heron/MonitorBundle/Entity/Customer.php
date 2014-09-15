@@ -77,6 +77,11 @@ class Customer
      */
     private $updated;
 
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="customer")
+     **/
+    private $users;
+
     public function __construct() 
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
@@ -284,5 +289,38 @@ class Customer
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \Heron\MonitorBundle\Entity\User $users
+     * @return Customer
+     */
+    public function addUser(\Heron\MonitorBundle\Entity\User $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Heron\MonitorBundle\Entity\User $users
+     */
+    public function removeUser(\Heron\MonitorBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }
