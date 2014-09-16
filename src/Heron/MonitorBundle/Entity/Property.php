@@ -30,6 +30,14 @@ class Property
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Expose
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="baseUrl", type="string", length=255)
      * @Expose
      */
@@ -204,5 +212,28 @@ class Property
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Property
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
