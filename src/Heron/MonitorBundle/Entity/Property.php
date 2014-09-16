@@ -4,12 +4,16 @@ namespace Heron\MonitorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * Property
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Heron\MonitorBundle\Entity\PropertyRepository")
+ *
+ * @ExclusionPolicy("all") 
  */
 class Property
 {
@@ -19,6 +23,7 @@ class Property
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
@@ -26,6 +31,7 @@ class Property
      * @var string
      *
      * @ORM\Column(name="baseUrl", type="string", length=255)
+     * @Expose
      */
     private $baseUrl;
 
@@ -45,6 +51,7 @@ class Property
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
+     * @Expose
      */
     private $created;
 
@@ -53,6 +60,7 @@ class Property
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
+     * @Expose
      */
     private $updated;
 

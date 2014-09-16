@@ -43,12 +43,12 @@ class Snapshot
     private $path;
 
     /**
-     * @ORM\OneToMany(targetEntity="cssFile", mappedBy="snapshot")
+     * @ORM\OneToMany(targetEntity="CssFile", mappedBy="snapshot")
      **/
     private $cssFiles;
     
     /**
-     * @ORM\OneToMany(targetEntity="javascriptFile", mappedBy="snapshot")
+     * @ORM\OneToMany(targetEntity="JavascriptFile", mappedBy="snapshot")
      **/
     private $javascriptFiles;
 

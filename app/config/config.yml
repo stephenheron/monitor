@@ -81,3 +81,9 @@ fos_user:
     db_driver: orm 
     firewall_name: main
     user_class: Heron\MonitorBundle\Entity\User
+
+# FOS REST Bundle
+fos_rest:
+    format_listener: true
+    routing_loader:
+        default_format: json

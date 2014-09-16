@@ -3,6 +3,7 @@
 namespace Heron\MonitorBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Heron\MonitorBundle\Entity\Customer;
 
 /**
  * PropertyRepository
@@ -12,4 +13,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class PropertyRepository extends EntityRepository
 {
+    public function getPropertiesForCustomer(Customer $customer)
+    {
+        $query = $this->getEntityManager()
+        ->createQuery(
+            'SELECT p FROM HeronMonitorBundle:Property p
+            JOIN p.customer c WHERE c.id = :customer_id'
+        )->setParameter('customer_id', $customer->getId()); 
+
+        return $query->getResult();
+    }
 }
