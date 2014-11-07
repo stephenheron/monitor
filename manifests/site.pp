@@ -91,5 +91,5 @@ exec { "a2ensite symfony" :
 
 exec { "curl -sS https://getcomposer.org/installer | php; mv composer.phar /usr/local/bin/composer" :
   path => '/sbin:/bin:/usr/sbin:/usr/bin',
-  require => Package[["php5-common", "libapache2-mod-php5", "php5-cli", "php5-mysql", "php5-gearman"]]
+  require => Package[["php5-common", "libapache2-mod-php5", "php5-cli", "php5-mysql", "php5-gearman", "php5-curl"]]
 }
