@@ -2,6 +2,3 @@ heron_monitor_homepage:
     path:     /
     defaults: { _controller: HeronMonitorBundle:Default:index }
 
-properties:
-    type: rest
-    resource: Heron\MonitorBundle\Controller\PropertiesController 
