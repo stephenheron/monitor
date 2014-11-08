@@ -123,4 +123,17 @@ class User extends BaseUser
     {
         return $this->updated;
     }
+
+    public function setEmail($email)
+    {
+        parent::setEmail($email);
+        $this->setUsername($email);
+    }
+
+    //Email should always be used as the username
+    public function setUsername($username)
+    {
+        $this->username = $this->getEmail();
+    }
+
 }

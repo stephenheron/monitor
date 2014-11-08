@@ -36,14 +36,14 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=255)
+     * @ORM\Column(name="firstName", type="string", length=255, nullable=true)
      */
     private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="secondName", type="string", length=255)
+     * @ORM\Column(name="secondName", type="string", length=255, nullable=true)
      */
     private $secondName;
 
