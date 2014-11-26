@@ -2,9 +2,14 @@ exec {"apt-get update":
     path => "/usr/bin",
 }
 
-package {"nodejs":
+package {"nodejs-legacy":
     ensure => present,
     require => Exec["apt-get update"],
+}
+
+package {"npm":
+    ensure => present,
+    require => Package["nodejs-legacy"],
 }
 
 package {"apache2":
@@ -27,10 +32,16 @@ service { 'mysql':
     require => Package['mysql-server'],
 }
 
-package { ["php5-common", "libapache2-mod-php5", "php5-cli", "php5-mysql", "php5-gearman"]:
+package { ["php5-common", "libapache2-mod-php5", "php5-cli", "php5-mysql", "php5-gearman", "php5-curl"]:
     ensure => installed,
     notify => Service["apache2"],
     require => [Exec["apt-get update"], Package['mysql-client'], Package['apache2']],
+}
+
+exec { "SASS" :
+    command => "gem install sass",
+    path => '/bin:/sbin:/bin:/usr/sbin:/usr/bin',
+    require => Exec["apt-get update"]
 }
 
 exec { "/usr/sbin/a2enmod rewrite" :
@@ -91,5 +102,5 @@ exec { "a2ensite symfony" :
 
 exec { "curl -sS https://getcomposer.org/installer | php; mv composer.phar /usr/local/bin/composer" :
   path => '/sbin:/bin:/usr/sbin:/usr/bin',
-  require => Package[["php5-common", "libapache2-mod-php5", "php5-cli", "php5-mysql", "php5-gearman"]]
+  require => Package[["php5-common", "libapache2-mod-php5", "php5-cli", "php5-mysql", "php5-gearman", "php5-curl"]]
 }

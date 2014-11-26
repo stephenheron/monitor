@@ -1,6 +1,6 @@
 <?php
 
-namespace Heron\MonitorBundle\Service;
+namespace Heron\MonitorBundle\Manager;
 
 use Heron\MonitorBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
