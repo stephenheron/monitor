@@ -1,0 +1,21 @@
+services:
+    property_manager:
+        class:  AppBundle\Manager\PropertyManager
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+    customer_manager:
+        class:  AppBundle\Manager\CustomerManager
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+
+    registration_form_handler:
+        class: AppBundle\Form\Handler\RegistrationFormHandler
+        scope: request
+        public: false
+        arguments:
+          - "@fos_user.registration.form"
+          - "@request"
+          - "@fos_user.user_manager"
+          - "@fos_user.mailer"
+          - "@fos_user.util.token_generator"
+          - "@customer_manager"

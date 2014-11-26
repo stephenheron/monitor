@@ -1,4 +1,0 @@
-heron_monitor_homepage:
-    path:     /
-    defaults: { _controller: HeronMonitorBundle:Default:index }
-
