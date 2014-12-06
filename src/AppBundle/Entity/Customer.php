@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Customer
@@ -28,7 +29,9 @@ class Customer
     private $properties;
 
     /**
-     * @ORM\OneToOne(targetEntity="Address", inversedBy="customer")
+     * @Assert\Valid()
+     *
+     * @ORM\OneToOne(targetEntity="Address", inversedBy="customer", cascade={"persist"})
      * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      */
     private $address;
@@ -36,6 +39,19 @@ class Customer
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 50)
+     * @Assert\Choice(choices = {"Mr", "Ms", "Mrs", "Miss"}, message = "Choose a valid title.")
+     *
+     * @ORM\Column(name="title", type="string", length=15, nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 255)
      * @ORM\Column(name="firstName", type="string", length=255, nullable=true)
      */
     private $firstName;
@@ -43,6 +59,8 @@ class Customer
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 255)
      * @ORM\Column(name="secondName", type="string", length=255, nullable=true)
      */
     private $secondName;
@@ -50,6 +68,9 @@ class Customer
     /**
      * @var string
      *
+     * @Assert\Email()
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 255)
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
@@ -323,5 +344,28 @@ class Customer
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Customer
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

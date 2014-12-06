@@ -32,6 +32,16 @@ class RegistrationFormHandler extends FOSRegistrationFormHandler {
     }
 
     protected function onSuccess(UserInterface $user, $confirmation) {
+
+        $session = $this->request->getSession();
+        $customerId = $session->get('new_customer_id');
+        if($customerId && !$user->getCustomer()) {
+            $customerId = $session->get('new_customer_id');
+            $customer = $this->customerManager->getCustomerById($customerId);
+            $user->setCustomer($customer);
+            $session->set('new_customer_id', null);
+        }
+
         parent::onSuccess($user, $confirmation);
     }
 

@@ -16,4 +16,9 @@ class CustomerManager {
         $this->customerRepository = $entityManager->getRepository('AppBundle:Customer');
         $this->entityManager = $entityManager;
     }
+
+    public function getCustomerById($id)
+    {
+        return $this->customerRepository->find($id);
+    }
 }

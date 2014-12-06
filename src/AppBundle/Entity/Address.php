@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Address
@@ -30,13 +31,16 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="company", type="string", length=255)
+     * @Assert\Length(max = 255)
+     * @ORM\Column(name="company", type="string", length=255, nullable=true)
      */
     private $company;
 
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 255)
      * @ORM\Column(name="addressLine1", type="string", length=255)
      */
     private $addressLine1;
@@ -44,20 +48,24 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="addressLine2", type="string", length=255)
+     * @Assert\Length(max = 255)
+     * @ORM\Column(name="addressLine2", type="string", length=255, nullable=true)
      */
     private $addressLine2;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="addressLine3", type="string", length=255)
+     * @Assert\Length(max = 255)
+     * @ORM\Column(name="addressLine3", type="string", length=255, nullable=true)
      */
     private $addressLine3;
 
     /**
      * @var string
      *
+     * @Assert\Length(max = 255)
+     * @Assert\NotBlank()
      * @ORM\Column(name="town", type="string", length=255)
      */
     private $town;
@@ -65,9 +73,21 @@ class Address
     /**
      * @var string
      *
+     * @Assert\Length(max = 255)
+     * @Assert\NotBlank()
+     * @Assert\Country()
      * @ORM\Column(name="country", type="string", length=255)
      */
     private $country;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(max = 255)
+     * @Assert\NotBlank()
+     * @ORM\Column(name="postal_code", type="string", length=255)
+     */
+    private $postalCode;
 
      /**
      * @var \DateTime $created
@@ -301,5 +321,28 @@ class Address
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set postal_code
+     *
+     * @param string $postalCode
+     * @return Address
+     */
+    public function setPostalCode($postalCode)
+    {
+        $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    /**
+     * Get postal_code
+     *
+     * @return string 
+     */
+    public function getPostalCode()
+    {
+        return $this->postalCode;
     }
 }
