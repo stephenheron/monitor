@@ -16,18 +16,4 @@ class CustomerManager {
         $this->customerRepository = $entityManager->getRepository('AppBundle:Customer');
         $this->entityManager = $entityManager;
     }
-
-    public function createCustomerFromUser(UserInterface $user)
-    {
-        $emailAddress = $user->getEmail();
-
-        $customer = new Customer();
-        $customer->setEmail($emailAddress);
-        $customer->addUser($user);
-        $customer->setActive(true);
-
-        $this->entityManager->persist($customer);
-        $this->entityManager->flush();
-    }
-
 }

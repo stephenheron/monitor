@@ -33,7 +33,6 @@ class RegistrationFormHandler extends FOSRegistrationFormHandler {
 
     protected function onSuccess(UserInterface $user, $confirmation) {
         parent::onSuccess($user, $confirmation);
-        $this->customerManager->createCustomerFromUser($user);
     }
 
 
