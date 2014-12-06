@@ -21,4 +21,17 @@ class CustomerManager {
     {
         return $this->customerRepository->find($id);
     }
+
+
+    public function activateCustomer(Customer $customer)
+    {
+        $customer->setActive(true);
+        $this->updateCustomer($customer);
+    }
+
+    public function updateCustomer(Customer $customer)
+    {
+        $this->entityManager->persist($customer);
+        $this->entityManager->flush();
+    }
 }
