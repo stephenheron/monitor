@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Snapshot
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Heron\MoniAppBundle\pshotRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\SnapshotRepository")
  */
 class Snapshot
 {
@@ -25,14 +25,14 @@ class Snapshot
     /**
      * @var string
      *
-     * @ORM\Column(name="htmlSource", type="text")
+     * @ORM\Column(name="htmlSource", type="text", nullable=true)
      */
     private $htmlSource;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="har", type="text")
+     * @ORM\Column(name="har", type="text", nullable=true)
      */
     private $har;
 
@@ -51,6 +51,11 @@ class Snapshot
      * @ORM\OneToMany(targetEntity="JavascriptFile", mappedBy="snapshot")
      **/
     private $javascriptFiles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="SnapshotImage", mappedBy="snapshot")
+     **/
+    private $images;
 
      /**
      * @var \DateTime $created
@@ -154,6 +159,8 @@ class Snapshot
     public function __construct()
     {
         $this->cssFiles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->javascriptFiles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -254,5 +261,51 @@ class Snapshot
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Add javascriptFiles
+     *
+     * @param \AppBundle\Entity\JavascriptFile $javascriptFiles
+     * @return Snapshot
+     */
+    public function addJavascriptFile(\AppBundle\Entity\JavascriptFile $javascriptFiles)
+    {
+        $this->javascriptFiles[] = $javascriptFiles;
+
+        return $this;
+    }
+
+    /**
+     * Add images
+     *
+     * @param \AppBundle\Entity\SnapshotImage $images
+     * @return Snapshot
+     */
+    public function addImage(\AppBundle\Entity\SnapshotImage $images)
+    {
+        $this->images[] = $images;
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \AppBundle\Entity\SnapshotImage $images
+     */
+    public function removeImage(\AppBundle\Entity\SnapshotImage $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }
