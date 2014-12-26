@@ -15,8 +15,10 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Util\TokenGeneratorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class RegistrationFormHandler extends FOSRegistrationFormHandler {
 
@@ -40,8 +42,10 @@ class RegistrationFormHandler extends FOSRegistrationFormHandler {
         if($customerId) {
             $customer = $this->customerManager->getCustomerById($customerId);
             $session->set('new_customer_id', null);
-        } else {
+        } elseif($user->getCustomer()) {
             $customer = $user->getCustomer();
+        } else {
+            throw new Exception('Trying to create a new user without a corresponding customer.');
         }
 
         if($customer) {
@@ -50,7 +54,7 @@ class RegistrationFormHandler extends FOSRegistrationFormHandler {
 
         parent::onSuccess($user, $confirmation);
 
-        if($customer && $customer->getActivate() == false) {
+        if($customer && $customer->getActive() == false) {
             $this->customerManager->activateCustomer($customer);
         }
     }

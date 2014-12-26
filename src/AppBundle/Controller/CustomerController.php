@@ -7,6 +7,7 @@ use AppBundle\Form\CustomerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CustomerController extends Controller
 {
@@ -15,6 +16,10 @@ class CustomerController extends Controller
      */
     public function newAction(Request $request)
     {
+        if($this->getUser()){
+           throw new AccessDeniedException();
+        }
+
         $customer = new Customer();
         $customer->setActive(false);
 
