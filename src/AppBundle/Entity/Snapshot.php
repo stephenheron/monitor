@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Snapshot
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\SnapshotRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\SnapshotRepository")
  */
 class Snapshot
 {
@@ -28,6 +28,13 @@ class Snapshot
      * @ORM\Column(name="htmlSource", type="text", nullable=true)
      */
     private $htmlSource;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mirrorDirectoryName", type="string", nullable=true)
+     */
+    private $mirrorDirectoryName;
 
     /**
      * @var string
@@ -307,5 +314,34 @@ class Snapshot
     public function getImages()
     {
         return $this->images;
+    }
+
+
+    /**
+     * Set mirrorDirectoryName
+     *
+     * @param string $mirrorDirectoryName
+     * @return Snapshot
+     */
+    public function setMirrorDirectoryName($mirrorDirectoryName)
+    {
+        $this->mirrorDirectoryName = $mirrorDirectoryName;
+
+        return $this;
+    }
+
+    /**
+     * Get mirrorDirectoryName
+     *
+     * @return string 
+     */
+    public function getMirrorDirectoryName()
+    {
+        return $this->mirrorDirectoryName;
+    }
+
+    public function getUrl()
+    {
+        return $this->getPath()->getUrl();
     }
 }

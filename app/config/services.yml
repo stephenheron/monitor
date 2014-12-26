@@ -3,10 +3,18 @@ services:
         class:  AppBundle\Manager\PropertyManager
         arguments: 
             entityManager: "@doctrine.orm.entity_manager"
+
     customer_manager:
         class:  AppBundle\Manager\CustomerManager
         arguments:
             entityManager: "@doctrine.orm.entity_manager"
+
+    queue_manager:
+        class: AppBundle\Manager\QueueManager
+        arguments:
+          host: "%queue_host%"
+          post: "%queue_port%"
+          mirror_directory: "%kernel.root_dir%/../web/mirror"
 
     registration_form_handler:
         class: AppBundle\Form\Handler\RegistrationFormHandler
@@ -19,3 +27,17 @@ services:
           - "@fos_user.mailer"
           - "@fos_user.util.token_generator"
           - "@customer_manager"
+
+    snapshot_subscriber:
+        class: AppBundle\EventListener\SnapshotSubscriber
+        arguments:
+          queueManager: "@queue_manager"
+        tags:
+          - { name: doctrine.event_subscriber }
+
+    css_file_subscriber:
+        class: AppBundle\EventListener\CssFileSubscriber
+        arguments:
+          queueManager: "@queue_manager"
+        tags:
+          - { name: doctrine.event_subscriber }

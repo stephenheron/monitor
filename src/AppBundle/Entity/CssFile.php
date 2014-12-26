@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use AppBundle\Helper\UrlHelper;
+
 /**
  * CssFile
  *
@@ -63,7 +65,14 @@ class CssFile
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
-    private $updated; 
+    private $updated;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="stats", type="text")
+     */
+    private $stats;
 
 
     /**
@@ -212,5 +221,38 @@ class CssFile
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set stats
+     *
+     * @param string $stats
+     * @return CssFile
+     */
+    public function setStats($stats)
+    {
+        $this->stats = $stats;
+
+        return $this;
+    }
+
+    /**
+     * Get stats
+     *
+     * @return string 
+     */
+    public function getStats()
+    {
+        return $this->stats;
+    }
+
+    public function getUrl()
+    {
+        $pathUrl = $this->getSnapshot()->getPath()->getUrl();
+        if($pathUrl) {
+            $url = $pathUrl . $this->getPath();
+            $url = UrlHelper::toSingleSlashes($url);
+            return $url;
+        }
     }
 }

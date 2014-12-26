@@ -22,6 +22,16 @@ service { "apache2":
     require => Package["apache2"]
 }
 
+package {"gearman":
+    ensure => present,
+    require => Exec["apt-get update"],
+}
+
+service { 'gearman':
+    ensure  => running,
+    require => Package['gearman'],
+}
+
 package {['mysql-server', 'mysql-client']:
     ensure => installed,
     require => Exec["apt-get update"]

@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use AppBundle\Helper\UrlHelper;
+
 /**
  * Path
  *
@@ -227,4 +229,15 @@ class Path
     {
         return $this->updated;
     }
+
+    public function getUrl()
+    {
+        $property = $this->getProperty();
+        if($property) {
+            $url = $property->getBaseUrl() . $this->getPath();
+            $url = UrlHelper::toSingleSlashes($url);
+            return $url;
+        }
+    }
+
 }

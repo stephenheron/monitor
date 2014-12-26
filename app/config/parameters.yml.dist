@@ -15,3 +15,5 @@ parameters:
     debug_toolbar: true
     debug_redirects: false
     use_assetic_controller: false
+    queue_host: localhost
+    queue_port: 4730
