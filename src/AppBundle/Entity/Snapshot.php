@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use AppBundle\Model\Har;
 
 /**
  * Snapshot
@@ -15,6 +16,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Snapshot
 {
+
+    /**
+     *  @var Har
+     */
+    private $harObject;
+
     /**
      * @var integer
      *
@@ -355,6 +362,27 @@ class Snapshot
     {
         return $this->mirrorDirectoryName;
     }
+
+    /**
+     * @return Har
+     */
+    public function getHarObject()
+    {
+        if(!$this->harObject && $this->getHar()){
+           $this->harObject = new Har($this->getHar());
+        }
+
+        /*
+         * If the HAR source has changed we need to generate a new HAR object
+         * This could be integrated into the above IF but this looks cleaner
+         */
+        if($this->harObject->getHarSource() !== $this->getHar()) {
+           $this->harObject = new Har($this->getHar());
+        }
+
+        return $this->harObject;
+    }
+
 
     public function getUrl()
     {
