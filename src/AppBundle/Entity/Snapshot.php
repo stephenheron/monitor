@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Snapshot
@@ -80,6 +82,20 @@ class Snapshot
      */
     private $updated;
 
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        if($this->getHar()) {
+            json_decode($this->getHar());
+            if(!(json_last_error() == JSON_ERROR_NONE)){
+                $context->buildViolation('The HAR must be valid JSON')
+                    ->atPath('har')
+                    ->addViolation();
+            }
+        }
+    }
 
     /**
      * Get id

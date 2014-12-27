@@ -2,6 +2,12 @@ app:
     resource: "@AppBundle/Controller/"
     type: annotation
 
+internal_api_snapshots:
+    #removing the .php creates errors, seems a little strange but it does work
+    resource: "@AppBundle/Controller/InternalAPI/SnapshotController.php"
+    type: rest
+    prefix: /internal-api
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 

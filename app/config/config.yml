@@ -89,3 +89,4 @@ fos_user:
     registration:
       form:
         handler: registration_form_handler
+
