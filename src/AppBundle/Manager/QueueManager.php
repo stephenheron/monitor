@@ -2,6 +2,7 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Entity\JavascriptFile;
 use AppBundle\Entity\Snapshot;
 use AppBundle\Entity\CssFile;
 use \GearmanClient;
@@ -23,8 +24,12 @@ class QueueManager
     {
         $gearmanClient = new GearmanClient();
         $gearmanClient->addServer($host, $port);
-
         $this->gearmanClient = $gearmanClient;
+
+        $this->mirrorDirectory = $mirrorDirectory;
+
+        //TODO: REMOVE THIS LINE, forcing to /tmp because of bloody vagrant
+        $this->mirrorDirectory = '/tmp';
     }
 
     public function createGenerateHarJob(Snapshot $snapshot)
@@ -43,6 +48,7 @@ class QueueManager
             'address'    => $snapshot->getUrl(),
             'outputDir'  => $this->mirrorDirectory
         );
+
         $this->addJobToQueue('generateMirror', $jobData);
     }
 
@@ -61,18 +67,31 @@ class QueueManager
         $this->addJobToQueue('generateScreenshot', $jobData);
     }
 
-    //TODO: Not used yet, add to the API request
-    public function createRequestHtmlCssJobs(Snapshot $snapshot)
+    public function createRequestJsJob(JavascriptFile $jsFile)
     {
-        //TODO: Need to process the HAR for this one, leave it until we have an actual HAR to process
-        dump($snapshot);
+        $jobData = array(
+            'resourceID' => $jsFile->getId(),
+            'address'    => $jsFile->getUrl(),
+            'type'      => 'js'
+        );
+        $this->addJobToQueue('requestResource', $jobData);
+    }
+
+    public function createRequestCssJob(CssFile $cssFile)
+    {
+        $jobData = array(
+            'resourceID' => $cssFile->getId(),
+            'address'    => $cssFile->getUrl(),
+            'type'      => 'css'
+        );
+        $this->addJobToQueue('requestResource', $jobData);
     }
 
 
     public function createRequestHtmlJob(Snapshot $snapshot)
     {
         $jobData = array(
-            'snapshotID' => $snapshot->getId(),
+            'resourceID' => $snapshot->getId(),
             'address'    => $snapshot->getUrl(),
             'type'      => 'html'
         );

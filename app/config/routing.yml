@@ -8,6 +8,12 @@ internal_api_snapshots:
     type: rest
     prefix: /internal-api
 
+internal_api_resources:
+    #removing the .php creates errors, seems a little strange but it does work
+    resource: "@AppBundle/Controller/InternalAPI/ResourceController.php"
+    type: rest
+    prefix: /internal-api
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 

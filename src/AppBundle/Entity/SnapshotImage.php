@@ -25,9 +25,9 @@ class SnapshotImage
     /**
      * @var string
      *
-     * @ORM\Column(name="snapshotImage", type="text", nullable=true)
+     * @ORM\Column(name="imageData", type="text", nullable=true)
      */
-    private $snapshotImage;
+    private $imageData;
 
     /**
      * @var integer
@@ -77,26 +77,26 @@ class SnapshotImage
     }
 
     /**
-     * Set snapshotImage
+     * Set imageData
      *
-     * @param string $snapshotImage
+     * @param string $imageData
      * @return SnapshotImage
      */
-    public function setSnapshotImage($snapshotImage)
+    public function setImageData($imageData)
     {
-        $this->snapshotImage = $snapshotImage;
+        $this->imageData = $imageData;
 
         return $this;
     }
 
     /**
-     * Get snapshotImage
+     * Get imageData
      *
      * @return string 
      */
-    public function getSnapshotImage()
+    public function getImageData()
     {
-        return $this->snapshotImage;
+        return $this->imageData;
     }
 
     /**

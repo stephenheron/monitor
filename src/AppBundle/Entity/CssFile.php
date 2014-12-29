@@ -27,21 +27,21 @@ class CssFile
     /**
      * @var string
      *
-     * @ORM\Column(name="path", type="string", length=255)
+     * @ORM\Column(name="url", type="string", length=2048, nullable=true)
      */
-    private $path;
+    private $url;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="size", type="bigint")
+     * @ORM\Column(name="size", type="bigint", nullable=true)
      */
     private $size;
 
@@ -70,7 +70,7 @@ class CssFile
     /**
      * @var string
      *
-     * @ORM\Column(name="stats", type="text")
+     * @ORM\Column(name="stats", type="text", nullable=true)
      */
     private $stats;
 
@@ -86,26 +86,26 @@ class CssFile
     }
 
     /**
-     * Set path
+     * Set url
      *
-     * @param string $path
+     * @param string $url
      * @return CssFile
      */
-    public function setPath($path)
+    public function setUrl($url)
     {
-        $this->path = $path;
+        $this->url = $url;
 
         return $this;
     }
 
     /**
-     * Get path
+     * Get url
      *
      * @return string 
      */
-    public function getPath()
+    public function getUrl()
     {
-        return $this->path;
+        return $this->url;
     }
 
     /**
@@ -246,13 +246,4 @@ class CssFile
         return $this->stats;
     }
 
-    public function getUrl()
-    {
-        $pathUrl = $this->getSnapshot()->getPath()->getUrl();
-        if($pathUrl) {
-            $url = $pathUrl . $this->getPath();
-            $url = UrlHelper::toSingleSlashes($url);
-            return $url;
-        }
-    }
 }

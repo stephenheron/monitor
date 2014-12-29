@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 
 class PropertyManager {
 
-    private $propertyRepoistory;
+    private $propertyRepository;
 
     public function __construct(EntityManager $entityManager)
     {

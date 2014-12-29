@@ -2,13 +2,14 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\JavascriptFile;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 use AppBundle\Entity\CssFile;
 use AppBundle\Manager\QueueManager;
 
-class CssFileSubscriber implements EventSubscriber
+class ResourceSubscriber implements EventSubscriber
 {
 
     /**
@@ -35,10 +36,23 @@ class CssFileSubscriber implements EventSubscriber
         if($entity instanceof CssFile) {
             $cssFile = $entity;
 
-            if($cssFile->getStats()) {
+            if(!$cssFile->getStats() && $cssFile->getUrl()) {
                 $this->queueManager->createGenerateCssStatsJob($cssFile);
             }
 
+            dump($cssFile->getUrl());
+
+            if($cssFile->getUrl()) {
+                $this->queueManager->createRequestCssJob($cssFile);
+            }
+        }
+
+        if($entity instanceof JavascriptFile) {
+            $jsFile = $entity;
+
+            if($jsFile->getUrl()) {
+                $this->queueManager->createRequestJsJob($jsFile);
+            }
         }
     }
 

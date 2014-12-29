@@ -9,6 +9,11 @@ services:
         arguments:
             entityManager: "@doctrine.orm.entity_manager"
 
+    snapshot_manager:
+        class:  AppBundle\Manager\SnapshotManager
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+
     queue_manager:
         class: AppBundle\Manager\QueueManager
         arguments:
@@ -35,8 +40,8 @@ services:
         tags:
           - { name: doctrine.event_subscriber }
 
-    css_file_subscriber:
-        class: AppBundle\EventListener\CssFileSubscriber
+    resource_subscriber:
+        class: AppBundle\EventListener\ResourceSubscriber
         arguments:
           queueManager: "@queue_manager"
         tags:

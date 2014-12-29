@@ -24,7 +24,7 @@ class SnapshotSubscriber implements EventSubscriber
    public function getSubscribedEvents()
    {
       return array(
-         'postPersist'
+         'postPersist',
       );
    }
 
@@ -34,6 +34,7 @@ class SnapshotSubscriber implements EventSubscriber
 
       if($entity instanceof Snapshot) {
          $snapshot = $entity;
+
 
          if($snapshot->getHar() == null) {
             $this->queueManager->createGenerateHarJob($snapshot);

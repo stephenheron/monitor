@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Exclude;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use AppBundle\Model\Har;
@@ -13,6 +15,7 @@ use AppBundle\Model\Har;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\SnapshotRepository")
+ * ExclusionPolicy("all")
  */
 class Snapshot
 {
@@ -55,6 +58,7 @@ class Snapshot
     /**
      * @ORM\ManyToOne(targetEntity="Path", inversedBy="snapshots")
      * @ORM\JoinColumn(name="path_id", referencedColumnName="id")
+     * @Exclude
      **/
     private $path;
 
