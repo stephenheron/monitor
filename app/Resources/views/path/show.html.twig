@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Path &mdash; {{ path.name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ path.name }}</h1>
+
+    <p>
+        <strong>URL: </strong>{{ path.url }}
+    </p>
+    <div>
+        <strong>TODO: ADD EDIT AND DELETE BUTTONS</strong>
+    </div>
+
+    <hr>
+
+    <div>
+        <h2>Snapshots</h2>
+        <button type="button" class="btn btn-primary">Request Snapshot</button>
+
+        {% if path.snapshots|length == 0 %}
+            <p>We don't appear to have any snapshots yet...</p>
+        {% else %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Generated On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for snapshot in snapshots %}
+                    <tr>
+                        <td>
+                            <a href="#">{{ loop.revindex }}</a>
+                        </td>
+                        <td>{{ snapshot.created | date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

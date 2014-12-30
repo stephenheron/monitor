@@ -6,7 +6,6 @@ use AppBundle\Entity\JavascriptFile;
 use AppBundle\Entity\Snapshot;
 use AppBundle\Entity\CssFile;
 use \GearmanClient;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class QueueManager
 {
@@ -113,7 +112,7 @@ class QueueManager
         $payload = json_encode($payload);
         $handle = $this->gearmanClient->doBackground($name, $payload);
         if($this->gearmanClient->returnCode() != GEARMAN_SUCCESS) {
-            throw new Exception('Gearmean return code was not success it was instead ' . $this->gearmanClient->returnCode());
+            throw new \Exception('Gearmean return code was not success it was instead ' . $this->gearmanClient->returnCode());
         }
     }
 }

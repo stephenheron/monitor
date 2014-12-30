@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Property &mdash; {{ property.name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ property.name }}</h1>
+
+    <p>
+        <strong>Base URL: </strong>{{ property.baseUrl }}
+    </p>
+    <div>
+        <a href="{{ path('edit_property', {'id': property.id}) }}" class="btn btn-primary">Edit Property</a>
+        {{ form_start(delete_form, {'attr': {'class': 'delete-form'}}) }}
+            {{ form_widget(delete_form) }}
+        {{ form_end(delete_form) }}
+    </div>
+
+    <hr>
+
+    <div>
+        <h2>Pages</h2>
+        {% if property.paths|length == 0 %}
+            <p>You don't appear to have added any pages...</p>
+        {% else %}
+            <ul>
+            {% for path in property.paths %}
+                <li>
+                    {{ path.name }} - {{ path.url }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        <button type="button" class="btn btn-primary">Add Page</button>
+    </div>
+{% endblock %}

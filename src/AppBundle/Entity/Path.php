@@ -27,6 +27,13 @@ class Path
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="path", type="string", length=255)
      */
     private $path;
@@ -43,6 +50,13 @@ class Path
      * @ORM\JoinColumn(name="property_id", referencedColumnName="id")
      */
     private $property;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="property_id", type="integer")
+     */
+    private $propertyId;
 
     /**
      * @ORM\OneToMany(targetEntity="Snapshot", mappedBy="path")
@@ -240,4 +254,50 @@ class Path
         }
     }
 
+
+    /**
+     * Set propertyId
+     *
+     * @param integer $propertyId
+     * @return Path
+     */
+    public function setPropertyId($propertyId)
+    {
+        $this->propertyId = $propertyId;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyId
+     *
+     * @return integer 
+     */
+    public function getPropertyId()
+    {
+        return $this->propertyId;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Path
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -26,6 +27,7 @@ class Property
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -33,6 +35,8 @@ class Property
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Url()
      * @ORM\Column(name="baseUrl", type="string", length=255)
      */
     private $baseUrl;
@@ -42,6 +46,13 @@ class Property
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
      */
     private $customer;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="customer_id", type="integer")
+     */
+    private $customerId;
 
     /**
      * @ORM\OneToMany(targetEntity="Path", mappedBy="property")
@@ -227,5 +238,28 @@ class Property
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set customer_id
+     *
+     * @param integer $customerId
+     * @return Property
+     */
+    public function setCustomerId($customerId)
+    {
+        $this->customerId = $customerId;
+
+        return $this;
+    }
+
+    /**
+     * Get customer_id
+     *
+     * @return integer 
+     */
+    public function getCustomerId()
+    {
+        return $this->customerId;
     }
 }

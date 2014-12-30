@@ -2,7 +2,7 @@
 
 namespace AppBundle\Manager;
 
-use Heron\MonitorBundle\Entity\User;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 
 class PropertyManager {
@@ -18,6 +18,14 @@ class PropertyManager {
     {
         $customer = $user->getCustomer();
         $properties = $this->propertyRepository->getPropertiesForCustomer($customer);
+
+        return $properties;
+    }
+
+    public function getPropertiesWithPathsForUser(User $user)
+    {
+        $customer = $user->getCustomer();
+        $properties = $this->propertyRepository->getPropertiesWithPathsForCustomer($customer);
 
         return $properties;
     }

@@ -16,10 +16,20 @@ class PropertyRepository extends EntityRepository
     public function getPropertiesForCustomer(Customer $customer)
     {
         $query = $this->getEntityManager()
-        ->createQuery(
-            'SELECT p FROM AppBundle:Property p
-            JOIN p.customer c WHERE c.id = :customer_id'
-        )->setParameter('customer_id', $customer->getId()); 
+            ->createQuery(
+                'SELECT p FROM AppBundle:Property p WHERE p.customerId = :customer_id')
+            ->setParameter('customer_id', $customer->getId());
+
+        return $query->getResult();
+    }
+
+    public function getPropertiesWithPathsForCustomer(Customer $customer)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT p, pa FROM AppBundle:Property p
+                LEFT JOIN p.paths pa WHERE p.customerId = :customer_id'
+            )->setParameter('customer_id', $customer->getId());
 
         return $query->getResult();
     }

@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <h1>Dashboard</h1>
+
+    {% if properties|length == 0 %}
+        <div class="well">
+            <h3>You don't have any properties set up....</h3>
+            <a href="#" class="btn btn-primary btn-lg">Set up one now</a>
+        </div>
+    {% else %}
+        {% for property in properties %}
+            <div class="well">
+                <h3>
+                    <a href="{{ path('show_property', {id: property.id}) }}">{{ property.name }}</a>
+                    &ndash;
+                    <a href="{{ property.baseUrl }}">{{ property.baseUrl }}</a>
+                </h3>
+                {% if property.paths|length == 0 %}
+                    <p>
+                        You don't have any pages set up for this property.
+                    </p>
+                    <a href="#" class="btn btn-primary">Set up one now</a>
+                {% else %}
+                   <ul>
+                       {% for path in property.paths %}
+                           <li>
+                               <a href="{{ path('show_path', {'id': path.id}) }}">{{ path.name }}</a>
+                               &ndash;
+                               <a href="{{ path.url }}">{{ path.url }}</a>
+                           </li>
+                       {% endfor %}
+                   </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <a href="{{ path('new_property') }}" class="btn btn-primary">Add Property</a>
+    {% endif %}
+
+
+{% endblock %}
