@@ -97,6 +97,10 @@ class Path
      */
     public function setPath($path)
     {
+        if($path[0] != '/') {
+            $path = '/' . $path;
+        }
+
         $this->path = $path;
 
         return $this;
@@ -253,7 +257,6 @@ class Path
             return $url;
         }
     }
-
 
     /**
      * Set propertyId

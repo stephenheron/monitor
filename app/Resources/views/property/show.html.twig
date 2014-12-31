@@ -25,12 +25,12 @@
             <ul>
             {% for path in property.paths %}
                 <li>
-                    {{ path.name }} - {{ path.url }}
+                    <a href="{{ path('show_path', {'id': path.id}) }}">{{ path.name }}</a> - {{ path.url }}
                 </li>
             {% endfor %}
             </ul>
         {% endif %}
 
-        <button type="button" class="btn btn-primary">Add Page</button>
+        <a href="{{ path('new_path', {'id': property.id}) }}" class="btn btn-primary">Add Page</a>
     </div>
 {% endblock %}

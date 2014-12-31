@@ -9,7 +9,10 @@
         <strong>URL: </strong>{{ path.url }}
     </p>
     <div>
-        <strong>TODO: ADD EDIT AND DELETE BUTTONS</strong>
+        <a href="{{ path('edit_path', {'id': path.id}) }}" class="btn btn-primary">Edit Page</a>
+        {{ form_start(delete_form, {'attr': {'class': 'delete-form'}}) }}
+        {{ form_widget(delete_form) }}
+        {{ form_end(delete_form) }}
     </div>
 
     <hr>
