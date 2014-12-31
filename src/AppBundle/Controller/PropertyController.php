@@ -33,7 +33,7 @@ class PropertyController extends Controller
             $em->persist($property);
             $em->flush();
 
-            $this->addFlash('info', 'Property has been created');
+            $this->addFlash('success', 'Property has been created');
             return $this->redirectToRoute('dashboard');
         }
 
@@ -57,7 +57,7 @@ class PropertyController extends Controller
                 $em->persist($property);
                 $em->flush();
 
-                $this->addFlash('info', 'Property has been updated');
+                $this->addFlash('success', 'Property has been updated');
                 return $this->redirectToRoute('show_property', ['id' => $property->getId()]);
             }
 
@@ -108,7 +108,6 @@ class PropertyController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->remove($property);
                 $em->flush();
-
                 $this->addFlash('success', 'Property deleted');
             } else {
                 $this->addFlash('error', 'Something went wrong when attempting to delete the property.');
