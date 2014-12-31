@@ -5,9 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Property;
 use AppBundle\Form\PropertyType;
 use AppBundle\Form\EditPropertyType;
+use AppBundle\Form\DeletePropertyType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -68,6 +70,7 @@ class PropertyController extends Controller
 
     /**
      * @Route("/property/{id}", name="show_property")
+     * @Method({"GET"})
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Property $property, Request $request) {
@@ -75,28 +78,44 @@ class PropertyController extends Controller
         $user = $this->getUser();
 
         if($userManager->allowedAccessToProperty($user, $property)) {
-
-            //Delete Form
-            $deleteForm = $this->createFormBuilder($property, ['validation_groups' => false])
-                ->add('delete', 'submit', ['button_class' => 'danger'])
-                ->getForm();
-
-            $deleteForm->handleRequest($request);
-
-            if($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->remove($property);
-                $em->flush();
-
-                $this->addFlash('info', 'Property deleted');
-                return $this->redirectToRoute('dashboard');
-            }
+            $formOptions = ['action' => $this->generateUrl('delete_property', ['id' => $property->getId()])];
+            $deleteForm = $this->createForm(new DeletePropertyType(), null, $formOptions);
 
             $viewVars = ['property' => $property, 'delete_form' => $deleteForm->createView()];
 
             return $this->render('property/show.html.twig', $viewVars);
         } else {
             throw new AccessDeniedException();
+        }
+    }
+
+    /**
+     * @Route("/property/{id}", name="delete_property")
+     * @Method({"DELETE"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteAction(Property $property, Request $request)
+    {
+        $userManager = $this->get('user_manager');
+        $user = $this->getUser();
+
+        if($userManager->allowedAccessToProperty($user, $property)) {
+            $deleteForm = $this->createForm(new DeletePropertyType());
+
+            $deleteForm->handleRequest($request);
+
+            if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($property);
+                $em->flush();
+
+                $this->addFlash('success', 'Property deleted');
+            } else {
+                $this->addFlash('error', 'Something went wrong when attempting to delete the property.');
+            }
+            return $this->redirectToRoute('dashboard');
+        } else {
+            throw new AccessDeniedException;
         }
     }
 
