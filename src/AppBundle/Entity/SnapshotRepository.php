@@ -14,12 +14,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class SnapshotRepository extends EntityRepository
 {
-    public function getSnapshotsForPath(Path $path)
+    public function getSnapshotsForPathQuery(Path $path)
     {
         $query = $this->getEntityManager()
             ->createQuery('SELECT s FROM AppBundle:Snapshot s WHERE s.path = :path ORDER BY s.created DESC'
             )->setParameter('path', $path);
 
+        return $query;
+    }
+
+    public function getSnapshotsForPath(Path $path)
+    {
+        $query = $this->getSnapshotsForPathQuery($path);
         return $query->getResult();
     }
 }

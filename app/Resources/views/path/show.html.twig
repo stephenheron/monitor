@@ -27,8 +27,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Generated On</th>
+                        <th>Captured at</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -36,9 +35,8 @@
                     {% for snapshot in snapshots %}
                     <tr>
                         <td>
-                            <a href="{{ path('show_snapshot', {'id': snapshot.id }) }}">{{ loop.revindex }}</a>
+                            <a href="{{ path('show_snapshot', {'id': snapshot.id }) }}">{{ snapshot.created | date }}</a>
                         </td>
-                        <td>{{ snapshot.created | date }}</td>
                         <td>{{ snapshot.status }}</td>
                     </tr>
                     {% endfor %}
