@@ -76,9 +76,11 @@ class PathController extends Controller {
         $deleteForm = $this->createForm(new DeletePathType(), null, $formOptions);
 
         $snapshotRepository = $this->getDoctrine()->getRepository('AppBundle:Snapshot');
-        $snapshots = $snapshotRepository->getSnapshotsForPath($path);
+        $snapshotsQuery = $snapshotRepository->getSnapshotsForPathQuery($path);
+        $paginator  = $this->get('knp_paginator');
+        $snapshotPagination = $paginator->paginate($snapshotsQuery, $request->query->get('page', 1), 10);
 
-        $viewVars = ['path' => $path, 'snapshots' => $snapshots, 'delete_form' => $deleteForm->createView()];
+        $viewVars = ['path' => $path, 'snapshotPagination' => $snapshotPagination, 'delete_form' => $deleteForm->createView()];
         return $this->render('path/show.html.twig', $viewVars);
     }
 

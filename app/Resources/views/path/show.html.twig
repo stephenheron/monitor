@@ -10,16 +10,15 @@
     </p>
     <div>
         <a href="{{ path('edit_path', {'id': path.id}) }}" class="btn btn-primary">Edit Page</a>
+        <button type="button" class="btn btn-primary">Request Snapshot</button>
         {{ form_start(delete_form, {'attr': {'class': 'delete-form'}}) }}
         {{ form_widget(delete_form) }}
         {{ form_end(delete_form) }}
     </div>
-
     <hr>
 
     <div>
         <h2>Snapshots</h2>
-        <button type="button" class="btn btn-primary">Request Snapshot</button>
 
         {% if path.snapshots|length == 0 %}
             <p>We don't appear to have any snapshots yet...</p>
@@ -27,21 +26,26 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Captured at</th>
+                        <th>Captured On</th>
+                        <th>Message</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for snapshot in snapshots %}
+                    {% for snapshot in snapshotPagination %}
                     <tr>
                         <td>
                             <a href="{{ path('show_snapshot', {'id': snapshot.id }) }}">{{ snapshot.created | date }}</a>
                         </td>
+                        <td>TODO: ADD DB FIELD</td>
                         <td>{{ snapshot.status }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            <div>
+                {{ knp_pagination_render(snapshotPagination) }}
+            </div>
         {% endif %}
     </div>
 {% endblock %}
