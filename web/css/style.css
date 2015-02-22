@@ -5,3 +5,11 @@ body {
 .delete-form {
     display: inline-block;
 }
+
+.table-snapshot {
+    table-layout: fixed;
+}
+
+.table-snapshot td {
+    word-break: break-word;
+}

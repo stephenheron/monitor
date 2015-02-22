@@ -57,18 +57,33 @@ class Har
 
     public function getAllRequests()
     {
-        return $this->getHtmlRequests() +
-            $this->getCSSRequests() +
-            $this->getJSRequests() +
-            $this->getImageRequests() +
-            $this->getVideoRequests() +
-            $this->getOtherRequests();
+        $requests = array_merge($this->getHtmlRequests(),
+            $this->getCSSRequests(),
+            $this->getJSRequests(),
+            $this->getImageRequests(),
+            $this->getVideoRequests(),
+            $this->getOtherRequests());
+
+        return $requests;
     }
 
     public function getAllRequestsSize()
     {
-        $requests = $this->getAllRequests();
-        return $this->getResponseSize($requests);
+        $totalSizes = ['size' => 0, 'compressed_size' => 0];
+        $requestSizes = [
+            $this->getHtmlRequestsSize(),
+            $this->getCSSRequestsSize(),
+            $this->getJSRequestsSize(),
+            $this->getOtherRequestsSize(),
+            $this->getImageRequestsSize()
+        ];
+
+        foreach($requestSizes as $sizes){
+            $totalSizes['size'] += $sizes['size'];
+            $totalSizes['compressed_size'] += $sizes['compressed_size'];
+        }
+
+        return $totalSizes;
     }
 
     public function getHtmlRequests()
@@ -133,7 +148,7 @@ class Har
 
     public function getOtherRequestsSize()
     {
-        $requests = $this->getVideoRequests();
+        $requests = $this->getOtherRequests();
         return $this->getResponseSize($requests);
     }
 
@@ -191,7 +206,7 @@ class Har
         if(isset($entry['response']['content']['compression'])) {
             $processedEntry['compressed_size'] = $entry['response']['content']['compression'];
         } else {
-            $processedEntry['compressed_size'] = false;
+            $processedEntry['compressed_size'] = $processedEntry['size'];
         }
 
         $processedEntry['mime_type'] = $entry['response']['content']['mimeType'];

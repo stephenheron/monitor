@@ -13,7 +13,7 @@ use AppBundle\Helper\UrlHelper;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\CssFileRepository")
  */
-class CssFile
+class CssFile extends AbstractResource
 {
     /**
      * @var integer
@@ -244,6 +244,31 @@ class CssFile
     public function getStats()
     {
         return $this->stats;
+    }
+
+    public function getSimplifiedStats()
+    {
+        $stats = json_decode($this->getStats(), true);
+        $elementsToKeep = [
+            'rules',
+            'selectors',
+            'totalUniqueFontSizes',
+            'uniqueFontSize',
+            'totalUniqueColors',
+            'uniqueColor',
+            'idSelectors',
+            'importantKeywords',
+            'mediaQueries'
+        ];
+
+        $simplifiedStats = [];
+        foreach($stats as $key => $value) {
+            if(in_array($key, $elementsToKeep)) {
+                $simplifiedStats[$key] = $value;
+            }
+        }
+
+        return $simplifiedStats;
     }
 
 }

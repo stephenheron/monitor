@@ -29,15 +29,17 @@
                     <tr>
                         <th>#</th>
                         <th>Generated On</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for snapshot in snapshots %}
                     <tr>
                         <td>
-                            <a href="#">{{ loop.revindex }}</a>
+                            <a href="{{ path('show_snapshot', {'id': snapshot.id }) }}">{{ loop.revindex }}</a>
                         </td>
                         <td>{{ snapshot.created | date }}</td>
+                        <td>{{ snapshot.status }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

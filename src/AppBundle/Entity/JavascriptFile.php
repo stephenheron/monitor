@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Helper\UrlHelper;
 
 /**
  * JavascriptFile
@@ -12,7 +11,7 @@ use AppBundle\Helper\UrlHelper;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\JavascriptFileRepository")
  */
-class JavascriptFile
+class JavascriptFile extends AbstractResource
 {
     /**
      * @var integer

@@ -1,0 +1,155 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Snapshot{% endblock %}
+
+{% block body %}
+    <h1>Snapshot</h1>
+
+    <a class="btn btn-primary">View Mirror</a>
+
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-responsive" src="data:image/png;base64,{{ image_data }}" />
+        </div>
+        <div class="col-md-6">
+            <h2>Request Types</h2>
+            <table class="table table-bordered table-snapshot">
+                <tr>
+                    <th>Request Type</th>
+                    <th>Number of Requests</th>
+                    <th>Size</th>
+                    <th>Compressed Size</th>
+                </tr>
+                {% for type, data in request_data if type != 'All'%}
+                    <tr>
+                        <td>{{ type }}</td>
+                        <td>{{ data.requests|length }}</td>
+                        <td>{{ data.size|bytesToHuman }}</td>
+                        <td>{{ data.compressed_size|bytesToHuman }}</td>
+                    </tr>
+                {% endfor %}
+                <tr class="active">
+                    <td><strong>Total</strong></td>
+                    <td><strong>{{ request_data['All'].requests|length }}</strong></td>
+                    <td><strong>{{ request_data['All'].size|bytesToHuman }}</strong></td>
+                    <td><strong>{{ request_data['All'].compressed_size|bytesToHuman }}</strong></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <hr>
+
+    <h2>HTML Request</h2>
+    <ul>
+        <li>
+            <strong>URL: </strong><a href="{{ main_html_request.url }}">{{ main_html_request.url }}</a>
+        </li>
+        <li>
+            <strong>Response Code:</strong> {{ main_html_request.response_code }}
+        </li>
+        <li>
+            <strong>Size: </strong>{{ main_html_request.size|bytesToHuman }}
+        </li>
+        <li>
+            <strong>Lines of code: </strong>{{ snapshot.getSourceLinesOfCode() }}
+        </li>
+        <li>
+            <a href="#">View source</a>
+        </li>
+    </ul>
+
+    {% include 'snapshot/includes/headers.html.twig' with { 'id': 'main-request-headers', 'headers': main_html_request.response_headers } only %}
+
+    <hr>
+
+    <h2>CSS Files</h2>
+    {% for css_file in snapshot.cssFiles  %}
+        <h3><a href="{{ css_file.url }}">{{ css_file.getName }}</a></h3>
+        <ul>
+            <li><strong>Size: </strong>{{ css_file.size|bytesToHuman }}</li>
+            <li><strong>Lines of code: </strong>{{ css_file.getSourceLinesOfCode() }}</li>
+            <li><a href="#">View Source</a></li>
+        </ul>
+        {% set stats = css_file.getSimplifiedStats() %}
+        <a class="btn btn-primary" data-toggle="collapse" href="#css-stat-{{ loop.index }}" aria-expanded="false" aria-controls="collapseExample">
+            Stats
+        </a>
+        <div id="css-stat-{{ loop.index }}" class="collapse">
+            <ul>
+                <li><strong>Rules: </strong>{{ stats.rules }}</li>
+                <li><strong>Selectors: </strong>{{ stats.selectors }}</li>
+                <li><strong>ID Selectors: </strong>{{ stats.idSelectors }}</li>
+                <li><strong>Important Keywords: </strong>{{ stats.importantKeywords }}</li>
+                <li><strong>Media Queries: </strong>{{ stats.mediaQueries }}</li>
+                <li><strong>Number of Font Sizes: </strong>{{ stats.totalUniqueFontSizes }}</li>
+                <li>
+                    <strong>Font Sizes:</strong>
+                    <ul>
+                        {% for font_size in stats.uniqueFontSize %}
+                            <li>{{ font_size }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><strong>Number of Colours: </strong>{{ stats.totalUniqueColors }}</li>
+                <li>
+                    <strong>Colours:</strong>
+                    <ul>
+                        {% for colour in stats.uniqueColor %}
+                            <li style="color: {{ colour }}">{{ colour }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    <h2>Javascript Files</h2>
+    {% for js_file in snapshot.javascriptFiles %}
+        <h3><a href="{{ js_file.url }}">{{ js_file.getName }}</a></h3>
+        <ul>
+            <li>
+                <strong>Size: </strong>{{ js_file.size|bytesToHuman }}
+            </li>
+            <li>
+                <strong>Lines of code: </strong>{{ js_file.getSourceLinesOfCode() }}
+            </li>
+            <li>
+                <a href="#">View Source</a>
+            </li>
+        </ul>
+    {% endfor %}
+
+    <hr>
+
+    <h2>All Requests</h2>
+    {% for type, data in request_data if type != 'All'%}
+        <h3>{{ type }}</h3>
+        {% for request in data.requests %}
+            <h4>{{ request.url }}</h4>
+            <ul>
+                <li>
+                    <strong>Response Code:</strong> {{ request.response_code }}
+                </li>
+                <li>
+                    <strong>Size: </strong>{{ request.size|bytesToHuman }}
+                </li>
+                <li>
+                    <strong>Compressed Size: </strong>{{ request.compressed_size|bytesToHuman }}
+                </li>
+                <li>
+                    <strong>MIME type: </strong>{{ request.mime_type }}
+                </li>
+            </ul>
+
+            {% set request_id = "request-headers-#{loop.index}-#{type}" %}
+            {% include 'snapshot/includes/headers.html.twig' with { 'id': request_id, 'headers': main_html_request.response_headers } only %}
+        {% endfor %}
+    {% endfor %}
+
+{% endblock %}

@@ -51,3 +51,24 @@ services:
           queueManager: "@queue_manager"
         tags:
           - { name: doctrine.event_subscriber }
+
+    path_voter:
+        class: AppBundle\Security\Authorization\Voter\PathVoter
+        public: false
+        arguments:
+          userManager: "@user_manager"
+        tags:
+          - { name: security.voter }
+
+    property_voter:
+        class: AppBundle\Security\Authorization\Voter\PropertyVoter
+        public: false
+        arguments:
+          userManager: "@user_manager"
+        tags:
+          - { name: security.voter }
+
+    file_size_twig_extension:
+        class: AppBundle\Twig\FileSizeExtension
+        tags:
+          - { name: twig.extension }

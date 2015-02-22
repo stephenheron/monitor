@@ -1,0 +1,18 @@
+<a class="btn btn-primary" data-toggle="collapse" href="#{{ id }}" aria-expanded="false" aria-controls="collapseExample">
+    Response Headers
+</a>
+<div class="collapse" id="{{ id }}">
+    <h3>Response Headers</h3>
+    <table class="table table-bordered table-snapshot">
+        <tr>
+            <th>Key</th>
+            <th>Data</th>
+        </tr>
+        {% for field in headers %}
+            <tr>
+                <td><strong>{{ field.name }}</strong></td>
+                <td>{{ field.value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

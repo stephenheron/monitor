@@ -11,9 +11,10 @@ use AppBundle\Form\DeletePathType;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PathController extends Controller {
 
@@ -45,81 +46,62 @@ class PathController extends Controller {
     /**
      * @Route("/path/{id}/edit", name="edit_path")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('EDIT', path)")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Path $path, Request $request) {
-        $userManager = $this->get('user_manager');
-        $user = $this->getUser();
+        $form = $this->createForm(new EditPathType(), $path);
+        $form->handleRequest($request);
 
-        if($userManager->allowedAccessToProperty($user, $path->getProperty())) {
-            $form = $this->createForm(new EditPathType(), $path);
-            $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($path);
+            $em->flush();
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($path);
-                $em->flush();
-
-                $this->addFlash('success', 'Property has been created');
-                return $this->redirectToRoute('show_path', ['id' => $path->getId()]);
-            }
-
-            return $this->render('path/edit.html.twig', ['form' => $form->createView()]);
-        } else {
-            throw new AccessDeniedException();
+            $this->addFlash('success', 'Property has been updated');
+            return $this->redirectToRoute('show_path', ['id' => $path->getId()]);
         }
+
+        return $this->render('path/edit.html.twig', ['form' => $form->createView()]);
     }
 
     /**
      * @Route("/path/{id}", name="show_path")
      * @Method({"GET"})
+     * @Security("is_granted('VIEW', path)")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Path $path, Request $request) {
-        $userManager = $this->get('user_manager');
-        $user = $this->getUser();
+        $formOptions = ['action' => $this->generateUrl('delete_path', ['id' => $path->getId()])];
+        $deleteForm = $this->createForm(new DeletePathType(), null, $formOptions);
 
-        if($userManager->allowedAccessToProperty($user, $path->getProperty())) {
+        $snapshotRepository = $this->getDoctrine()->getRepository('AppBundle:Snapshot');
+        $snapshots = $snapshotRepository->getSnapshotsForPath($path);
 
-            $formOptions = ['action' => $this->generateUrl('delete_path', ['id' => $path->getId()])];
-            $deleteForm = $this->createForm(new DeletePathType(), null, $formOptions);
-
-            $snapshotRepository = $this->getDoctrine()->getRepository('AppBundle:Snapshot');
-            $snapshots = $snapshotRepository->getSnapshotsForPath($path);
-
-            $viewVars = ['path' => $path, 'snapshots' => $snapshots, 'delete_form' => $deleteForm->createView()];
-            return $this->render('path/show.html.twig', $viewVars);
-        } else {
-            throw new AccessDeniedException();
-        }
+        $viewVars = ['path' => $path, 'snapshots' => $snapshots, 'delete_form' => $deleteForm->createView()];
+        return $this->render('path/show.html.twig', $viewVars);
     }
 
     /**
      * @Route("/path/{id}", name="delete_path")
      * @Method({"DELETE"})
+     * @Security("is_granted('DELETE', path)")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function deleteAction(Path $path, Request $request)
     {
-        $userManager = $this->get('user_manager');
-        $user = $this->getUser();
+        $deleteForm = $this->createForm(new DeletePathType());
 
-        if($userManager->allowedAccessToProperty($user, $path->getProperty())) {
-            $deleteForm = $this->createForm(new DeletePathType());
+        $deleteForm->handleRequest($request);
 
-            $deleteForm->handleRequest($request);
-
-            if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->remove($path);
-                $em->flush();
-                $this->addFlash('success', 'Path deleted');
-            } else {
-                $this->addFlash('error', 'Something went wrong when attempting to delete the property.');
-            }
-            return $this->redirectToRoute('dashboard');
+        if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($path);
+            $em->flush();
+            $this->addFlash('success', 'Path deleted');
         } else {
-            throw new AccessDeniedException;
+            $this->addFlash('error', 'Something went wrong when attempting to delete the path.');
         }
+        return $this->redirectToRoute('dashboard');
     }
 }

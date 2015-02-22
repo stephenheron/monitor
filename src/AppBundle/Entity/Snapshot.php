@@ -20,6 +20,9 @@ use AppBundle\Model\Har;
 class Snapshot
 {
 
+    const STATUS_COMPLETE = 'Complete';
+    const STATUS_INCOMPLETE = 'Incomplete';
+
     /**
      *  @var Har
      */
@@ -92,6 +95,21 @@ class Snapshot
      * @ORM\Column(type="datetime")
      */
     private $updated;
+
+    public function getStatus()
+    {
+        if(
+            $this->getHarObject() &&
+            $this->getHtmlSource() &&
+            count($this->getCssFiles()) &&
+            count($this->getJavascriptFiles())
+            && count($this->getImages())
+        ) {
+            return Snapshot::STATUS_COMPLETE;
+        } else {
+            return Snapshot::STATUS_INCOMPLETE;
+        }
+    }
 
     /**
      * @Assert\Callback
@@ -380,16 +398,43 @@ class Snapshot
          * If the HAR source has changed we need to generate a new HAR object
          * This could be integrated into the above IF but this looks cleaner
          */
-        if($this->harObject->getHarSource() !== $this->getHar()) {
+        if($this->harObject && $this->harObject->getHarSource() !== $this->getHar()) {
            $this->harObject = new Har($this->getHar());
         }
 
         return $this->harObject;
     }
 
-
     public function getUrl()
     {
         return $this->getPath()->getUrl();
+    }
+
+    public function getPreferredImage()
+    {
+        $images = $this->getImages();
+        $imageToReturn = null;
+        if(count($images)) {
+            foreach($images as $image) {
+                if($image->getWidth() == 1080 && $image->getHeight() == 1920) {
+                   $imageToReturn = $image;
+                   break;
+                }
+            }
+
+            if(!$imageToReturn) {
+                $imageToReturn = $images->first();
+            }
+        }
+        return $imageToReturn;
+    }
+
+    public function getSourceLinesOfCode()
+    {
+        if($this->getHtmlSource()) {
+            return substr_count( $this->getHtmlSource(), "\n" );
+        } else {
+            return 0;
+        }
     }
 }
