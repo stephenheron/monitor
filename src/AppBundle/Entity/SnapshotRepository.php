@@ -28,4 +28,21 @@ class SnapshotRepository extends EntityRepository
         $query = $this->getSnapshotsForPathQuery($path);
         return $query->getResult();
     }
+
+    public function getNewestSnapshotWithImageForPath(Path $path)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+              SELECT s FROM AppBundle:Snapshot s
+              JOIN s.images i
+              WHERE s.path = :path
+              AND i.imageData IS NOT NULL
+              ORDER BY s.created DESC
+            ')
+            ->setMaxResults(1)
+            ->setParameter('path', $path);
+
+        return $query->getOneOrNullResult();
+
+    }
 }

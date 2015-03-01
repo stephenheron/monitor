@@ -80,7 +80,18 @@ class PathController extends Controller {
         $paginator  = $this->get('knp_paginator');
         $snapshotPagination = $paginator->paginate($snapshotsQuery, $request->query->get('page', 1), 10);
 
-        $viewVars = ['path' => $path, 'snapshotPagination' => $snapshotPagination, 'delete_form' => $deleteForm->createView()];
+        $newestSnapshot = $snapshotRepository->getNewestSnapshotWithImageForPath($path);
+        $newestSnapshotImage = null;
+        if($newestSnapshot) {
+            $newestSnapshotImage = $newestSnapshot->getPreferredImage();
+        }
+
+        $viewVars = [
+            'path' => $path,
+            'snapshot_pagination' => $snapshotPagination,
+            'delete_form' => $deleteForm->createView(),
+            'snapshot_image_data' => $newestSnapshotImage->getImageData()
+        ];
         return $this->render('path/show.html.twig', $viewVars);
     }
 

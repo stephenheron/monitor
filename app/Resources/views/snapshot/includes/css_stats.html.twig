@@ -1,0 +1,27 @@
+<div id="css-stat-{{ index }}" class="css-stats collapse">
+    <ul>
+        <li><strong>Rules: </strong>{{ stats.rules }}</li>
+        <li><strong>Selectors: </strong>{{ stats.selectors }}</li>
+        <li><strong>ID Selectors: </strong>{{ stats.idSelectors }}</li>
+        <li><strong>Important Keywords: </strong>{{ stats.importantKeywords }}</li>
+        <li><strong>Media Queries: </strong>{{ stats.mediaQueries }}</li>
+        <li><strong>Number of Font Sizes: </strong>{{ stats.totalUniqueFontSizes }}</li>
+        <li>
+            <strong>Font Sizes:</strong>
+            <ul>
+                {% for font_size in stats.uniqueFontSize %}
+                    <li>{{ font_size }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li><strong>Number of Colours: </strong>{{ stats.totalUniqueColors }}</li>
+        <li>
+            <strong>Colours:</strong>
+            <ul class="css-stats-colours list-inline">
+                {% for colour in stats.uniqueColor %}
+                    <li style="background-color: {{ colour }}">{{ colour }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -13,3 +13,16 @@ body {
 .table-snapshot td {
     word-break: break-word;
 }
+
+.css-stats .css-stats-colours li {
+    height: 50px;
+    width: 100px;
+    margin-top: 5px;
+    border: 1px solid #000000;
+    word-break: break-all;
+    overflow: auto;
+}
+
+.path-actions li {
+    margin-top: 5px;
+}

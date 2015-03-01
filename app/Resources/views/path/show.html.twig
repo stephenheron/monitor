@@ -6,14 +6,29 @@
     <h1>{{ path.name }}</h1>
 
     <p>
-        <strong>URL: </strong>{{ path.url }}
     </p>
-    <div>
-        <a href="{{ path('edit_path', {'id': path.id}) }}" class="btn btn-primary">Edit Page</a>
-        <button type="button" class="btn btn-primary">Request Snapshot</button>
-        {{ form_start(delete_form, {'attr': {'class': 'delete-form'}}) }}
-        {{ form_widget(delete_form) }}
-        {{ form_end(delete_form) }}
+    <div class="row">
+        <div class="col-md-2">
+            <img class="img-responsive" src="data:image/png;base64,{{ snapshot_image_data }}" />
+        </div>
+        <div class="col-md-6">
+            <ul class="list-unstyled path-actions">
+                <li>
+                    <strong>URL: </strong>{{ path.url }}
+                </li>
+                <li>
+                    <a href="{{ path('edit_path', {'id': path.id}) }}" class="btn btn-primary">Edit Page</a>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-primary">Request Snapshot</button>
+                </li>
+                <li>
+                    {{ form_start(delete_form, {'attr': {'class': 'delete-form'}}) }}
+                    {{ form_widget(delete_form) }}
+                    {{ form_end(delete_form) }}
+                </li>
+            </ul>
+        </div>
     </div>
     <hr>
 
@@ -32,19 +47,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for snapshot in snapshotPagination %}
+                    {% for snapshot in snapshot_pagination %}
                     <tr>
                         <td>
                             <a href="{{ path('show_snapshot', {'id': snapshot.id }) }}">{{ snapshot.created | date }}</a>
                         </td>
-                        <td>TODO: ADD DB FIELD</td>
-                        <td>{{ snapshot.status }}</td>
+
+                        <td>
+                            {% if snapshot.message %}
+                                {{ snapshot.message }}
+                            {% else %}
+                                No message set
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% set snapshot_class = '' %}
+                            {% if snapshot.status == constant('STATUS_COMPLETE', snapshot) %}
+                                {% set snapshot_class = 'label-success' %}
+                            {% elseif snapshot.status == constant('STATUS_INCOMPLETE', snapshot) %}
+                                {% set snapshot_class = 'label-danger' %}
+                            {% endif %}
+                            <span class="label {{ snapshot_class }}">{{ snapshot.status }}</span>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             <div>
-                {{ knp_pagination_render(snapshotPagination) }}
+                {{ knp_pagination_render(snapshot_pagination) }}
             </div>
         {% endif %}
     </div>

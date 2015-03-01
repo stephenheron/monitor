@@ -54,6 +54,13 @@ class Snapshot
     /**
      * @var string
      *
+     * @ORM\Column(name="message", type="string", nullable=true)
+     */
+    private $message;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="har", type="text", nullable=true)
      */
     private $har;
@@ -436,5 +443,28 @@ class Snapshot
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Set message
+     *
+     * @param string $message
+     * @return Snapshot
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * Get message
+     *
+     * @return string 
+     */
+    public function getMessage()
+    {
+        return $this->message;
     }
 }
