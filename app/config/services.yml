@@ -68,6 +68,22 @@ services:
         tags:
           - { name: security.voter }
 
+    snapshot_voter:
+        class: AppBundle\Security\Authorization\Voter\SnapshotVoter
+        public: false
+        arguments:
+          userManager: "@user_manager"
+        tags:
+          - { name: security.voter }
+
+    resource_voter:
+        class: AppBundle\Security\Authorization\Voter\ResourceVoter
+        public: false
+        arguments:
+          userManager: "@user_manager"
+        tags:
+          - { name: security.voter }
+
     file_size_twig_extension:
         class: AppBundle\Twig\FileSizeExtension
         tags:
