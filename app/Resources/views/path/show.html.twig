@@ -8,9 +8,11 @@
     <p>
     </p>
     <div class="row">
-        <div class="col-md-2">
-            <img class="img-responsive" src="data:image/png;base64,{{ snapshot_image_data }}" />
-        </div>
+        {% if snapshot_image_data is defined %}
+            <div class="col-md-2">
+                <img class="img-responsive" src="data:image/png;base64,{{ snapshot_image_data }}" />
+            </div>
+        {% endif %}
         <div class="col-md-6">
             <ul class="list-unstyled path-actions">
                 <li>
@@ -20,7 +22,7 @@
                     <a href="{{ path('edit_path', {'id': path.id}) }}" class="btn btn-primary">Edit Page</a>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-primary">Request Snapshot</button>
+                    <a href="{{ path('new_snapshot', {'id': path.id}) }}" class="btn btn-primary">New Snapshot</a>
                 </li>
                 <li>
                     {{ form_start(delete_form, {'attr': {'class': 'delete-form'}}) }}
