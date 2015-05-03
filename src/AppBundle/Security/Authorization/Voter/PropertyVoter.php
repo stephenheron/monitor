@@ -9,14 +9,7 @@ use AppBundle\Manager\UserManager;
 
 class PropertyVoter extends AbstractEntityVoter
 {
-    private $userManager;
-
     protected $supportedClass = 'AppBundle\Entity\Property';
-
-    public function __construct(UserManager $userManager)
-    {
-        $this->userManager = $userManager;
-    }
 
     public function vote(TokenInterface $token, $property, array $attributes)
     {

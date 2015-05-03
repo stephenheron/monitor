@@ -9,14 +9,7 @@ use AppBundle\Manager\UserManager;
 
 class PathVoter extends AbstractEntityVoter
 {
-    private $userManager;
-
     protected $supportedClass = 'AppBundle\Entity\Path';
-
-    public function __construct(UserManager $userManager)
-    {
-        $this->userManager = $userManager;
-    }
 
     public function vote(TokenInterface $token, $path, array $attributes)
     {

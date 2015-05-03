@@ -7,13 +7,19 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use AppBundle\Manager\UserManager;
-use AppBundle\Entity\Path;
 
 abstract class AbstractEntityVoter implements VoterInterface {
 
     const VIEW = 'VIEW';
     const EDIT = 'EDIT';
     const DELETE = 'DELETE';
+
+   protected $userManager;
+
+    public function __construct(UserManager $userManager)
+    {
+        $this->userManager = $userManager;
+    }
 
     public function supportsAttribute($attribute)
     {
