@@ -90,6 +90,14 @@ fos_user:
     firewall_name: main
     user_class: AppBundle\Entity\User
     registration:
-      form:
-        handler: registration_form_handler
+        form:
+            handler: registration_form_handler
 
+#Image Upload Configuration
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        snapshot_image:
+            uri_prefix:         /images/snapshot-images
+            upload_destination: %kernel.root_dir%/../web/images/snapshot-images

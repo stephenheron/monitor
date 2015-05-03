@@ -8,9 +8,9 @@
     <a class="btn btn-primary">View Mirror</a>
 
     <div class="row">
-        {% if image_data is defined %}
+        {% if image is defined %}
             <div class="col-md-3">
-                    <img class="img-responsive" src="data:image/png;base64,{{ image_data }}" />
+                <img class="img-responsive" src="{{ vich_uploader_asset(image, 'imageFile') }}" />
             </div>
         {% endif %}
         <div class="col-md-6">

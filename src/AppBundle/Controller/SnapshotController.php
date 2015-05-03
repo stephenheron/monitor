@@ -37,7 +37,7 @@ class SnapshotController extends Controller
         }
 
         if($image) {
-            $viewVars['image_data'] = $image->getImageData();
+            $viewVars['image'] = $image;
         }
 
         $template = 'snapshot/show.html.twig';

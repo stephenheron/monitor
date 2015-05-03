@@ -46,6 +46,10 @@ class SnapshotController extends FOSRestController
         $image = new SnapshotImage();
         $image->setSnapshot($snapshot);
 
+        $imageData = $request->get('imageData');
+        $request->request->remove('imageData');
+        $image->setImageFileFromBase64Data($imageData);
+
         $form = $this->createForm(new ApiImageType(), $image);
         $form->handleRequest($request);
 

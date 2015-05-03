@@ -12,7 +12,6 @@ class ApiImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('imageData', null, ['required' => true])
             ->add('width', null, ['required' => true])
             ->add('height', null, ['required' => true]);
     }

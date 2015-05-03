@@ -92,7 +92,7 @@ class PathController extends Controller {
             'delete_form' => $deleteForm->createView(),
         ];
         if($newestSnapshotImage){
-           $viewVars['snapshot_image_data']  = $newestSnapshotImage->getImageData();
+           $viewVars['snapshot_image']  = $newestSnapshotImage;
         }
         return $this->render('path/show.html.twig', $viewVars);
     }

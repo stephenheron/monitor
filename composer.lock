@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f64ef9cae497c566e613877cab88fa41",
+    "hash": "a6fbd789e06ec7511949201d3279be6e",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2512,6 +2512,77 @@
             "time": "2015-01-25 17:32:08"
         },
         {
+            "name": "vich/uploader-bundle",
+            "version": "v0.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dustin10/VichUploaderBundle.git",
+                "reference": "65d244d5e6ef62b4978585cdeb283b6cdab05f6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/65d244d5e6ef62b4978585cdeb283b6cdab05f6b",
+                "reference": "65d244d5e6ef62b4978585cdeb283b6cdab05f6b",
+                "shasum": ""
+            },
+            "require": {
+                "jms/metadata": "~1.5",
+                "php": ">=5.3.2",
+                "symfony/finder": ">=2.0",
+                "symfony/framework-bundle": "~2.3",
+                "symfony/property-access": "~2.3"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "*",
+                "doctrine/mongodb-odm": "@dev",
+                "doctrine/orm": "*",
+                "knplabs/knp-gaufrette-bundle": "*",
+                "matthiasnoback/symfony-dependency-injection-test": "0.*",
+                "mikey179/vfsstream": "~1.0",
+                "oneup/flysystem-bundle": "dev-master",
+                "phpunit/phpunit": "~4.0",
+                "symfony/symfony": "*"
+            },
+            "suggest": {
+                "doctrine/doctrine-bundle": "*",
+                "doctrine/mongodb-odm-bundle": "*",
+                "doctrine/orm": ">=2.2.3",
+                "doctrine/phpcr-odm": "~1.0",
+                "knplabs/knp-gaufrette-bundle": "*",
+                "symfony/yaml": "@stable",
+                "willdurand/propel-eventdispatcher-bundle": ">=1.2"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vich\\UploaderBundle\\": "",
+                    "Vich\\TestBundle\\": "Tests/Fixtures/App/src/TestBundle/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dustin Dobervich",
+                    "email": "ddobervich@gmail.com"
+                }
+            ],
+            "description": "Ease file uploads attached to entities",
+            "homepage": "https://github.com/dustin10/VichUploaderBundle",
+            "keywords": [
+                "file uploads",
+                "upload"
+            ],
+            "time": "2014-12-12 10:26:46"
+        },
+        {
             "name": "willdurand/jsonp-callback-validator",
             "version": "v1.1.0",
             "source": {
@@ -2602,6 +2673,90 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "knplabs/gaufrette",
+            "version": "v0.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/Gaufrette.git",
+                "reference": "4c73bb66ff41d7c9beb57372a82047cf5dcc6d1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/Gaufrette/zipball/4c73bb66ff41d7c9beb57372a82047cf5dcc6d1c",
+                "reference": "4c73bb66ff41d7c9beb57372a82047cf5dcc6d1c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "amazonwebservices/aws-sdk-for-php": "1.5.*",
+                "aws/aws-sdk-php": "~2",
+                "doctrine/dbal": ">=2.3",
+                "dropbox-php/dropbox-php": "*",
+                "google/apiclient": "~1.1",
+                "herzult/php-ssh": "*",
+                "microsoft/windowsazure": "dev-master",
+                "mikey179/vfsstream": "~1.2.0",
+                "phpseclib/phpseclib": "dev-master",
+                "phpspec/phpspec": "2.0.*",
+                "phpunit/phpunit": "3.7.*",
+                "rackspace/php-opencloud": "1.9.*"
+            },
+            "suggest": {
+                "amazonwebservices/aws-sdk-for-php": "to use the legacy Amazon S3 adapters",
+                "aws/aws-sdk-php": "to use the Amazon S3 adapter",
+                "doctrine/dbal": "to use the Doctrine DBAL adapter",
+                "dropbox-php/dropbox-php": "to use the Dropbox adapter",
+                "ext-apc": "to use the APC adapter",
+                "ext-curl": "*",
+                "ext-fileinfo": "This extension is used to automatically detect the content-type of a file in the AwsS3, OpenCloud, AzureBlogStorage and GoogleCloudStorage adapters",
+                "ext-mbstring": "*",
+                "ext-mongo": "*",
+                "ext-zip": "to use the Zip adapter",
+                "google/apiclient": "to use GoogleCloudStorage adapter",
+                "herzult/php-ssh": "to use SFtp adapter",
+                "knplabs/knp-gaufrette-bundle": "to use with Symfony2",
+                "microsoft/windowsazure": "to use Microsoft Azure Blob Storage adapter",
+                "phpseclib/phpseclib": "to use PhpseclibSftp adapter",
+                "rackspace/php-opencloud": "to use Opencloud adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Gaufrette": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "The contributors",
+                    "homepage": "http://github.com/knplabs/Gaufrette/contributors"
+                },
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                }
+            ],
+            "description": "PHP5 library that provides a filesystem abstraction layer",
+            "homepage": "http://knplabs.com",
+            "keywords": [
+                "abstraction",
+                "file",
+                "filesystem",
+                "media"
+            ],
+            "time": "2015-03-09 08:06:57"
+        },
         {
             "name": "sensio/generator-bundle",
             "version": "v2.5.2",

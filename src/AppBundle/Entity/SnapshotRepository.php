@@ -36,7 +36,7 @@ class SnapshotRepository extends EntityRepository
               SELECT s FROM AppBundle:Snapshot s
               JOIN s.images i
               WHERE s.path = :path
-              AND i.imageData IS NOT NULL
+              AND i.imageName IS NOT NULL
               ORDER BY s.created DESC
             ')
             ->setMaxResults(1)
