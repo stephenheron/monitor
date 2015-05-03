@@ -40,8 +40,6 @@ class ResourceSubscriber implements EventSubscriber
                 $this->queueManager->createGenerateCssStatsJob($cssFile);
             }
 
-            dump($cssFile->getUrl());
-
             if($cssFile->getUrl()) {
                 $this->queueManager->createRequestCssJob($cssFile);
             }
