@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+{% endblock %}
+
+{% block title %}Resource - {{ name }}{% endblock %}
+
+{% block body %}
+
+<h1>{{ name }}</h1>
+<h4>{{ created | date }}</h4>
+
+<div class="row">
+    <div class="col-md-12">
+        <pre>
+            <code>
+                {{ content }}
+            </code>
+        </pre>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
