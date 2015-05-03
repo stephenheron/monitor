@@ -1,0 +1,105 @@
+<div role="tabpanel">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#html-request" aria-controls="html-request" role="tab" data-toggle="tab">HTML Request</a>
+        </li>
+        <li role="presentation">
+            <a href="#all-requests" aria-controls="all-requests" role="tab" data-toggle="tab">All Requests</a>
+        </li>
+        <li role="presentation">
+            <a href="#css-files" aria-controls="css-files" role="tab" data-toggle="tab">CSS Files</a>
+        </li>
+        <li role="presentation">
+            <a href="#javascript-files" aria-controls="javascript-files" role="tab" data-toggle="tab">Javascript Files</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="html-request">
+            <h2>HTML Request</h2>
+            <ul>
+                <li>
+                    <strong>URL: </strong><a href="{{ main_html_request.url }}">{{ main_html_request.url }}</a>
+                </li>
+                <li>
+                    <strong>Response Code:</strong> {{ main_html_request.response_code }}
+                </li>
+                <li>
+                    <strong>Size: </strong>{{ main_html_request.size|bytesToHuman }}
+                </li>
+                <li>
+                    <strong>Lines of code: </strong>{{ snapshot.getSourceLinesOfCode() }}
+                </li>
+                <li>
+                    <a target="_blank" href="{{ path('show_snapshot_source', {'id': snapshot.id }) }}">View Source</a>
+                </li>
+            </ul>
+            {% include 'snapshot/includes/headers.html.twig' with { 'id': 'main-request-headers', 'headers': main_html_request.response_headers } only %}
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="css-files">
+            <h2>CSS Files</h2>
+            {% for css_file in snapshot.cssFiles  %}
+                <h3><a target="_blank" href="{{ path('show_css_resource', {'id': css_file.id }) }}">{{ css_file.getName }}</a></h3>
+                <ul>
+                    <li><strong>Size: </strong>{{ css_file.size|bytesToHuman }}</li>
+                    <li><strong>Lines of code: </strong>{{ css_file.getSourceLinesOfCode() }}</li>
+                </ul>
+                {% set stats = css_file.getSimplifiedStats() %}
+                <a class="btn btn-primary" data-toggle="collapse" href="#css-stat-{{ loop.index }}" aria-expanded="false" aria-controls="collapseExample">
+                    Stats
+                </a>
+
+                {% include 'snapshot/includes/css_stats.html.twig' with { 'index': loop.index, 'stats': stats } only %}
+            {% endfor %}
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="javascript-files">
+            <h2>Javascript Files</h2>
+            {% for js_file in snapshot.javascriptFiles %}
+                <h3><a target="_blank" href="{{ path('show_js_resource', {'id': js_file.id }) }}">{{ js_file.getName }}</a></h3>
+                <ul>
+                    <li>
+                        <strong>Size: </strong>{{ js_file.size|bytesToHuman }}
+                    </li>
+                    <li>
+                        <strong>Lines of code: </strong>{{ js_file.getSourceLinesOfCode() }}
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="all-requests">
+            <h2>All Requests</h2>
+            {% for type, data in request_data if type != 'All'%}
+                <h3>{{ type }}</h3>
+                {% for request in data.requests %}
+                    <h4>{{ request.url }}</h4>
+                    <ul>
+                        <li>
+                            <strong>Response Code:</strong> {{ request.response_code }}
+                        </li>
+                        <li>
+                            <strong>Size: </strong>{{ request.size|bytesToHuman }}
+                        </li>
+                        <li>
+                            <strong>Compressed Size: </strong>{{ request.compressed_size|bytesToHuman }}
+                        </li>
+                        <li>
+                            <strong>MIME type: </strong>{{ request.mime_type }}
+                        </li>
+                    </ul>
+
+                    {% set request_id = "request-headers-#{loop.index}-#{type}" %}
+                    {% include 'snapshot/includes/headers.html.twig' with { 'id': request_id, 'headers': main_html_request.response_headers } only %}
+                {% endfor %}
+                <hr>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>

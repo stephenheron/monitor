@@ -90,8 +90,10 @@ class PathController extends Controller {
             'path' => $path,
             'snapshot_pagination' => $snapshotPagination,
             'delete_form' => $deleteForm->createView(),
-            'snapshot_image_data' => $newestSnapshotImage->getImageData()
         ];
+        if($newestSnapshotImage){
+           $viewVars['snapshot_image_data']  = $newestSnapshotImage->getImageData();
+        }
         return $this->render('path/show.html.twig', $viewVars);
     }
 
