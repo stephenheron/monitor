@@ -14,6 +14,9 @@
         <li role="presentation">
             <a href="#javascript-files" aria-controls="javascript-files" role="tab" data-toggle="tab">Javascript Files</a>
         </li>
+        <li role="presentation">
+            <a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a>
+        </li>
     </ul>
 
     <!-- Tab panes -->
@@ -48,12 +51,14 @@
                     <li><strong>Size: </strong>{{ css_file.size|bytesToHuman }}</li>
                     <li><strong>Lines of code: </strong>{{ css_file.getSourceLinesOfCode() }}</li>
                 </ul>
-                {% set stats = css_file.getSimplifiedStats() %}
-                <a class="btn btn-primary" data-toggle="collapse" href="#css-stat-{{ loop.index }}" aria-expanded="false" aria-controls="collapseExample">
-                    Stats
-                </a>
+                {% if css_file.getSimplifiedStats() %}
+                    {% set stats = css_file.getSimplifiedStats() %}
+                    <a class="btn btn-primary" data-toggle="collapse" href="#css-stat-{{ loop.index }}" aria-expanded="false" aria-controls="collapseExample">
+                        Stats
+                    </a>
 
-                {% include 'snapshot/includes/css_stats.html.twig' with { 'index': loop.index, 'stats': stats } only %}
+                    {% include 'snapshot/includes/css_stats.html.twig' with { 'index': loop.index, 'stats': stats } only %}
+                {% endif %}
             {% endfor %}
         </div>
 
@@ -94,11 +99,19 @@
                     </ul>
 
                     {% set request_id = "request-headers-#{loop.index}-#{type}" %}
-                    {% include 'snapshot/includes/headers.html.twig' with { 'id': request_id, 'headers': main_html_request.response_headers } only %}
+                    {% include 'snapshot/includes/headers.html.twig' with { 'id': request_id, 'headers': request.response_headers } only %}
                 {% endfor %}
                 <hr>
             {% endfor %}
+        </div>
 
+        <div role="tabpanel" class="tab-pane" id="images">
+            <h2>Images</h2>
+            {% for image in images %}
+                <p><strong>{{ image.width }}x{{ image.height }}</strong></p>
+                <img src="{{ vich_uploader_asset(image, 'imageFile') }}" />
+                <hr>
+            {% endfor %}
         </div>
     </div>
 

@@ -49,7 +49,13 @@ class Har
             return $this->mainRequest;
         }
 
-        $firstRequest = reset($this->entries);
+        $firstRequest = null;
+        foreach($this->entries as $entry) {
+            if($entry['response']['status'] == 200) {
+                $firstRequest = $entry;
+                break;
+            }
+        }
         $this->mainRequest = $this->processEntry($firstRequest);
 
         return $this->mainRequest;

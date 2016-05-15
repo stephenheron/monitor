@@ -22,7 +22,7 @@
                     <p>
                         You don't have any pages set up for this property.
                     </p>
-                    <a href="#" class="btn btn-primary">Set up one now</a>
+                    <a href="{{ path('new_path', {'id': property.id}) }}" class="btn btn-primary">Set up one now</a>
                 {% else %}
                    <ul>
                        {% for path in property.paths %}

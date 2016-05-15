@@ -19,6 +19,12 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
  */
 class SnapshotImage
 {
+    public static $imageSizes = [
+        ['width' => 1920, 'height' => '1080'],
+        ['width' => 1366, 'height' => '768'],
+        ['width' => 736, 'height' => '414'],
+        ['width' => 640, 'height' => '360']
+    ];
     /**
      * @var integer
      *

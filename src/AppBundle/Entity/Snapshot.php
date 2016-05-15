@@ -423,7 +423,7 @@ class Snapshot
         $imageToReturn = null;
         if(count($images)) {
             foreach($images as $image) {
-                if($image->getWidth() == 1080 && $image->getHeight() == 1920) {
+                if($image->getHeight() == 1080 && $image->getWidth() == 1920) {
                    $imageToReturn = $image;
                    break;
                 }
@@ -467,4 +467,5 @@ class Snapshot
     {
         return $this->message;
     }
+
 }

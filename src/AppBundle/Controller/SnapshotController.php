@@ -28,6 +28,8 @@ class SnapshotController extends Controller
         $image = $snapshot->getPreferredImage();
         $har = $snapshot->getHarObject();
 
+        dump($har->getHarSource());
+
         $viewVars  = [];
         $viewVars['snapshot'] = $snapshot;
 
@@ -39,6 +41,8 @@ class SnapshotController extends Controller
         if($image) {
             $viewVars['image'] = $image;
         }
+
+        $viewVars['images'] = $snapshot->getImages();
 
         $template = 'snapshot/show.html.twig';
         if(!$har) {

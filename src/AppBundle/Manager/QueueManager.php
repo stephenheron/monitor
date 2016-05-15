@@ -5,6 +5,7 @@ namespace AppBundle\Manager;
 use AppBundle\Entity\JavascriptFile;
 use AppBundle\Entity\Snapshot;
 use AppBundle\Entity\CssFile;
+use AppBundle\Entity\SnapshotImage;
 use \GearmanClient;
 
 class QueueManager
@@ -53,17 +54,16 @@ class QueueManager
 
     public function createGenerateImagesJob(Snapshot $snapshot)
     {
-        //TODO: we might want to generate a couple of different resolutions
-        $defaultHeight = 1920;
-        $defaultWidth = 1080;
+        foreach(SnapshotImage::$imageSizes as $imageSize) {
+            $jobData = array(
+                'snapshotID' => $snapshot->getId(),
+                'address'    => $snapshot->getUrl(),
+                'height'     => $imageSize['height'],
+                'width'      => $imageSize['width']
+            );
+            $this->addJobToQueue('generateScreenshot', $jobData);
+        }
 
-        $jobData = array(
-            'snapshotID' => $snapshot->getId(),
-            'address'    => $snapshot->getUrl(),
-            'height'     => $defaultHeight,
-            'width'      => $defaultWidth
-        );
-        $this->addJobToQueue('generateScreenshot', $jobData);
     }
 
     public function createRequestJsJob(JavascriptFile $jsFile)
